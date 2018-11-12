@@ -4,9 +4,7 @@ import {
   Message
 } from 'element-ui';
 
-const SYSTEM = '/sims-service';
-const CUSTOMER = '/crm-api-service';
-const UPFILE = '/cmp/fms'; //上传附件
+
 const TEST='http://172.16.202.214:33011'
 
 const comAPI = (method, url, params) => {
@@ -39,7 +37,7 @@ const comAPI = (method, url, params) => {
 
 }
 
-const api = {
+const api = { 
   //登陆
   addUser(params) {
     return comAPI('post', '/user/addUser', params)
