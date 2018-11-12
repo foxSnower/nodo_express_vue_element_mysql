@@ -42,6 +42,9 @@ const api = {
   addUser(params) {
     return comAPI('post', '/user/addUser', params)
   },
+  addTest(params) {
+    return comAPI('post', '/test/addTest', params)
+  },
 }
 
 Vue.prototype.$http = http;

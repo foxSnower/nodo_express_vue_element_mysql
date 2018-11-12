@@ -15,8 +15,7 @@ var jsonWrite = function(res, ret) {
             msg: '操作失败'
         });
     } else {
-        res.json(ret
-            );
+        res.json(ret);
     }
 };
 
@@ -25,9 +24,9 @@ router.post('/addUser', (req, res) => {
     var sql = $sql.user.add;
     var params = req.body;
     console.log(params);
-    conn.query(sql, [params.user_name, params.user_password], function(err, result) {
+    conn.query(sql, [params.name, params.price], function(err, result) {
         if (err) {
-            console.log(params.user_name);
+            console.log(err);
         }
         if (result) {
             jsonWrite(res, result);
@@ -36,7 +35,7 @@ router.post('/addUser', (req, res) => {
 });
 // 增加用户接口
 router.get('/addUser', (req, res) => {
-     res.send('不支持get请求!');
+     res.send('retrunJson');
 });
 
 module.exports = router;
