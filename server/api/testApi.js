@@ -20,8 +20,6 @@ router.post('/addTest', (req, res) => {
     Cookies[parts[0].trim()] = (parts[1] || '').trim();
   });
   console.log(Cookies)
-  //  $utils.jsonWrite(res, Cookies);
-
   var sql = $sql.test.add;
   var params = req.body;
   if (!$utils.isRequired(params, res)) return false

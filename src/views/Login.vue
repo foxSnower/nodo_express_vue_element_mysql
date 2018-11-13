@@ -13,7 +13,7 @@
           <el-form-item label="密码">
             <el-input v-model="user_password"></el-input>
           </el-form-item>
-          <el-button type="primary" @click="addUser">提交</el-button>
+          <el-button type="primary" @click="addUser">登 录</el-button>
         </el-form>
       </div>
     </div>
@@ -29,7 +29,15 @@ export default {
     };
   },
   methods: {
-    addUser() {}
+    addUser() {
+      this.$api.addUser({
+        user_name:this.user_name,
+        user_password:this.user_password
+      }).then(res=>{
+        console.log(res);
+        
+      })
+    }
   }
 };
 </script>

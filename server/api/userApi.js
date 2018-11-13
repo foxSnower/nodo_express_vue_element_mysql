@@ -1,42 +1,42 @@
-var models = require('../db/db');
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
+var models = require('../db/db');
 var $sql = require('../db/sqlMap');
+var $utils = require('../utils/utils');
+var $msg = require('../utils/msg');
 
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
 conn.connect();
-var jsonWrite = function(res, ret) {
-    if(typeof ret === 'undefined') {
-        res.json({
-            code: '1',
-            msg: '操作失败'
-        });
-    } else {
-        res.json(ret
-            );
-    }
-};
 
 // 增加用户接口
 router.post('/addUser', (req, res) => {
-    var sql = $sql.user.add;
-    var params = req.body;
-    console.log(params);
-    conn.query(sql, [params.user_name, params.user_password], function(err, result) {
-        if (err) {
-            console.log(params.user_name);
-        }
-        if (result) {
-            jsonWrite(res, result);
-        }
-    })
+  // 获得客户端的Cookie
+  var Cookies = {};
+  req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
+    var parts = Cookie.split('=');
+    Cookies[parts[0].trim()] = (parts[1] || '').trim();
+  });
+  console.log(Cookies)
+  var sql = $sql.user.add;
+  var params = req.body;
+  if (!$utils.isRequired(params, res)) return false
+  if (!$utils.isString(params.user_name, res)) return false
+  if (!$utils.isString(params.user_password, res)) return false
+  conn.query(sql, [params.user_name, params.user_password], function (err, result) {
+    if (err) {
+      $utils.jsonWrite(res, err);
+    }
+    if (result) {
+      $utils.jsonWrite(res, 'cookie', $msg.loginSuccess);
+    }
+  })
 });
 // 增加用户接口
-router.get('/addUser', (req, res) => {
-     res.send('不支持get请求!');
+router.get('/addTest', (req, res) => {
+  res.send('不支持get请求!');
 });
 
 module.exports = router;

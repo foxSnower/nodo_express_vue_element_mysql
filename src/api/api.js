@@ -5,16 +5,16 @@ import {
 } from 'element-ui';
 
 
-const TEST='http://172.16.202.214:33011'
+const TEST = 'http://172.16.202.214:33011'
 
 const comAPI = (method, url, params) => {
   switch (method) {
     case 'post':
       return http.post(url, params).then(res => {
-        if (res.returnCode == "0000" || res.code == 0 || res.code == "0000") {
+        if (res.code == "0") {
           return res
         } else {
-          // Message.error(res.codeDesc || res.msg)
+          Message.error(res.msg)
           return res
         }
       })
@@ -37,7 +37,7 @@ const comAPI = (method, url, params) => {
 
 }
 
-const api = { 
+const api = {
   //登陆
   addUser(params) {
     return comAPI('post', '/user/addUser', params)
