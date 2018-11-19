@@ -45,6 +45,10 @@ const api = {
   addTest(params) {
     return comAPI('post', '/test/addTest', params)
   },
+  //animate
+  selectAnimate(params){
+    return comAPI('post', '/animate/selectAnimate', params)
+  }
 }
 
 Vue.prototype.$http = http;

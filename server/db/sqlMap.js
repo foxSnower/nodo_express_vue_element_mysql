@@ -8,5 +8,9 @@ var sqlMap = {
   test: {
     add: 'insert into goods(id, name, price) values (0, ?, ?)'
   },
+  animate:{
+    add:'insert into animate_css(effect_id, effect_name) values (0, ?)',
+    select:'select * from animate_css'
+  }
 }
 module.exports = sqlMap;

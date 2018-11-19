@@ -1,59 +1,58 @@
-var $msg = require('./msg');
+// var $msg = require('./msg');
+var is = require('is-js');
 
 module.exports = {
-  //返回json
-  jsonWrite: function (res, data, msg, isFail) {
-    console.log(isFail)
-    if (isFail) {
-      res.json({
-        code: '1',
-        msg: msg
-      });
+  isSuccess: (res, data, msg) => {
+    console.log(res, data, msg);
+
+    msg = msg ? msg : '操作成功';
+    res.json({
+      code: '0',
+      data: data,
+      msg: msg
+    });
+  },
+  isError: (res, err_code, msg) => {
+    msg = msg ? msg : '操作失败';
+    res.json({
+      code: '1',
+      msg: msg,
+      err_code: err_code
+    });
+  },
+  isNumber: function (value, res) {
+    if (is.number(parseFloat(value))) {
+      return true
     } else {
-      res.json({
-        code: '0',
-        msg: msg,
-        data: data
-      });
-    }
-  },
-  isNumber: function (value,res) {
-    let isRight = Object.prototype.toString.call(parseFloat(value))==='[object Number]'
-    if(isRight){
-      return true
-    }else{
       let msg = value + ' is not Number;'
-      this.jsonWrite(res, null, msg, true)
+      this.isError(res, msg)
       return false
     }
   },
-  isString: function (value,res) {
-    let isRight = Object.prototype.toString.call(value)==='[object String]';
-    if(isRight){
+  isString: function (value, res) {
+    if (is.string(value)) {
       return true
-    }else{
+    } else {
       let msg = value + ' is not String;'
-      this.jsonWrite(res, null, msg, true)
+      this.isError(res, msg)
       return false
     }
   },
-  isArray:function (value,res) {
-    let isRight = Object.prototype.toString.call(value)==='[object Array]';
-    if(isRight){
+  isArray: function (value, res) {
+    if (is.array(value)) {
       return true
-    }else{
+    } else {
       let msg = value + ' is not Array;'
-      this.jsonWrite(res, null, msg, true)
+      this.isError(res, msg)
       return false
     }
   },
-  isObject:function (value,res) {
-    let isRight = Object.prototype.toString.call(value)==='[object Object]';
-    if(isRight){
+  isObject: function (value, res) {
+    if (is.object(value)) {
       return true
-    }else{
+    } else {
       let msg = value + ' is not Object;'
-      this.jsonWrite(res, null, msg, true)
+      this.isError(res, msg)
       return false
     }
   },
@@ -61,12 +60,12 @@ module.exports = {
   isRequired: function (params, res) {
     let isRequiredMsg = '';
     for (let i in params) {
-      if (params[i] === '' || params[i] === null || params[i] === 'undefined') {
-        isRequiredMsg += i + $msg.required;
+      if (is.empty(params[i])) {
+        isRequiredMsg += i + ' is required;';
       }
     }
     if (isRequiredMsg !== '') {
-      this.jsonWrite(res, null, isRequiredMsg, true)
+      this.isError(res, isRequiredMsg);
       return false
     } else {
       return true

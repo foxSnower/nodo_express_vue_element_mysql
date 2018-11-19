@@ -7,7 +7,7 @@ import router from './router'
 import ElementUI from 'element-ui'
 // import 'element-ui/lib/theme-chalk/index.css'
 import '@/style/theme/element-EF8E6B/index.css'
-
+import '@/style/index.scss'
 import global_ from './api/global.js'
 // import filters from './utils/filters.js'
 import api from './api/api.js'

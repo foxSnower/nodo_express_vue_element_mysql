@@ -6,17 +6,22 @@
         <img src="@assets/logo.png">
       </div>
       <div class="login_rt">
-        <el-form ref="form" label-width="100px" label-color="#ccc">
+        <el-form ref="form" label-width="100px">
           <el-form-item label="账号">
-            <el-input v-model="user_name"></el-input>
+            <el-input v-model="user_name" maxLength="20"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="user_password"></el-input>
+            <el-input v-model="user_password" maxLength="20"></el-input>
           </el-form-item>
-          <el-button type="primary" @click="addUser">登 录</el-button>
+          <el-button width="180px" type="primary" @click="addUser">登 录</el-button>
+          <el-button width="180px" type="primary" @click="$router.push('/AnimationForCss3')">CSS 3</el-button>
+          <el-button width="180px" type="primary" @click="goRegister">注册</el-button>
         </el-form>
       </div>
     </div>
+    <!-- <div class="login_gif" id="scrollBackground" style="">
+    </div> -->
+
   </div>
 </template>
 
@@ -28,15 +33,37 @@ export default {
       user_password: null
     };
   },
+  mounted() {
+    // window.onload = function() {
+    //   var scrollBackground = {
+    //     object: document.getElementById('scrollBackground'),
+    //     endTop: 3657,
+    //     nowTop: 0
+    //   };
+    //   var scrollInterval = setInterval(function() {
+    //     scrollBackground.nowTop = scrollBackground.nowTop != scrollBackground.endTop ? scrollBackground.nowTop + 1 : 0;
+    //     scrollBackground.object.style.backgroundPosition = '0px -' + scrollBackground.nowTop + 'px';
+    //   }, 50);
+    // };
+  },
   methods: {
     addUser() {
-      this.$api.addUser({
-        user_name:this.user_name,
-        user_password:this.user_password
-      }).then(res=>{
-        console.log(res);
-        
-      })
+      this.$api
+        .addUser({
+          user_name: this.user_name,
+          user_password: this.user_password
+        })
+        .then(res => {
+          console.log(res);
+        });
+      //  this.$api
+      //   .addTest({
+      //     name: this.user_name,
+      //     price: this.user_password
+      //   })
+      //   .then(res => {
+      //     console.log(res);
+      //   });
     }
   }
 };
@@ -70,6 +97,7 @@ export default {
     overflow: hidden;
     background: rgba(0, 0, 0, 0.4);
     box-shadow: 0 0 20px #fff;
+    text-align: center;
     .login_lf {
       position: relative;
       width: 40%;
@@ -81,7 +109,7 @@ export default {
         height: 50%;
         width: 2px;
         right: 0;
-        top:50%;
+        top: 50%;
         margin-top: -25%;
         background: #ef8e6b;
         background: linear-gradient(transparent, #ef8e6b, transparent);
@@ -89,7 +117,7 @@ export default {
       img {
         position: absolute;
         width: 180px;
-        height:25%;
+        height: 25%;
         top: 50%;
         left: 50%;
         margin-left: -90px;
@@ -109,10 +137,27 @@ export default {
         margin-top: 80px;
       }
     }
+
     /deep/ .el-form-item__label {
       color: #ef8e6b;
     }
   }
+}
+.login_gif {
+  // position: absolute;
+  // left: 0;
+  // right: 0;
+  // top: 0;
+  // bottom: 0;
+  height: 150px;
+  background: url('~@assets/login_bg.jpg') no-repeat;
+  background-attachment: initial;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: initial;
+  background-position: 0px -1925px;
+  background-repeat: no-repeat no-repeat;
+  z-index: 2;
 }
 </style>
 

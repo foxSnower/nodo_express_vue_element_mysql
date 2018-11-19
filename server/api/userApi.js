@@ -3,9 +3,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var models = require('../db/db');
 var $sql = require('../db/sqlMap');
-var $utils = require('../utils/utils');
-var $msg = require('../utils/msg');
-
+var _ = require('../utils/utils');
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
 
@@ -19,24 +17,20 @@ router.post('/addUser', (req, res) => {
     var parts = Cookie.split('=');
     Cookies[parts[0].trim()] = (parts[1] || '').trim();
   });
-  console.log(Cookies)
   var sql = $sql.user.add;
   var params = req.body;
-  if (!$utils.isRequired(params, res)) return false
-  if (!$utils.isString(params.user_name, res)) return false
-  if (!$utils.isString(params.user_password, res)) return false
+  if (!_.isRequired(params, res)) return false
+  if (!_.isString(params.user_name, res)) return false
+  if (!_.isString(params.user_password, res)) return false
   conn.query(sql, [params.user_name, params.user_password], function (err, result) {
     if (err) {
-      $utils.jsonWrite(res, err);
+      _.isError(res, err.sqlMessage);
     }
     if (result) {
-      $utils.jsonWrite(res, 'cookie', $msg.loginSuccess);
+      _.isSuccess(res, null,'登陆成功');
     }
   })
 });
-// 增加用户接口
-router.get('/addTest', (req, res) => {
-  res.send('不支持get请求!');
-});
 
 module.exports = router;
+
