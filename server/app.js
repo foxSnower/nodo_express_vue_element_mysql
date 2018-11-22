@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 //注册api路由
 app.use('/api/user', userApi);
 app.use('/api/test', testApi);
-// app.use('/api/animate', animateApi);
+app.use('/api/animate', animateApi);
 
 // 监听端口
 app.listen(3000);

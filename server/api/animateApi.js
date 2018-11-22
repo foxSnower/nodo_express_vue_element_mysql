@@ -3,7 +3,7 @@ var router = express.Router();
 var mysql = require('mysql');
 var models = require('../db/db');
 var $sql = require('../db/sqlMap');
-var $utils = require('../utils/utils');
+var _ = require('../utils/utils');
 
 // 连接数据库
 var conn = mysql.createConnection(models.mysql);
@@ -11,46 +11,31 @@ var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
 // 增加接口
-router.post('/selectAnimate', (req, res) => {
-  // 获得客户端的Cookie
-  var Cookies = {};
-  req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
-    var parts = Cookie.split('=');
-    Cookies[parts[0].trim()] = (parts[1] || '').trim();
-  });
-  console.log(Cookies)
-  var sql = $sql.animate.select;
-  conn.query(sql, function (err, result) {
+router.post('/addtAnimate', (req, res) => {
+  var sql = $sql.animate.add;
+  var params = req.body;
+  if (!_.isString(params.effect_name, res)) return false
+  conn.query(sql, [params.effect_name], function (err, result) {
     if (err) {
-      $utils.jsonWrite(res, err);
+      _.isError(res, err.sqlMessage);
     }
     if (result) {
-      $utils.jsonWrite(res, 'cookie', $msg.loginSuccess);
+      _.isSuccess(res, null, '操作成功');
     }
   })
 });
 // 查询接口
 router.post('/selectAnimate', (req, res) => {
-  // 获得客户端的Cookie
-  var Cookies = {};
-  req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
-    var parts = Cookie.split('=');
-    Cookies[parts[0].trim()] = (parts[1] || '').trim();
-  });
-  console.log(Cookies)
   var sql = $sql.animate.select;
+  var params = req.body;
   conn.query(sql, function (err, result) {
     if (err) {
-      $utils.jsonWrite(res, err);
+      _.isError(res, err.sqlMessage);
     }
     if (result) {
-      $utils.jsonWrite(res, 'cookie', $msg.loginSuccess);
+      _.isSuccess(res, result, '操作成功');
     }
   })
-});
-// 增加用户接口
-router.get('/addTest', (req, res) => {
-  res.send('不支持get请求!');
 });
 
 module.exports = router;

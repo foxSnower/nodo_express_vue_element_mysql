@@ -115,10 +115,12 @@ const http = axios.create({
 //  * 响应拦截
 //  */
 http.interceptors.response.use(res => {
-  return res.data
+  if (res.data.code === '0') {
+    return res.data
+  } else {
+    Message.error(res.data.msg);
+  }
 }, err => {
-  console.table(err);
-  // if(err.)
   Message.error('服务器正在维护,请稍后在试 !')
   return Promise.reject(err)
 })

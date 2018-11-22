@@ -11,12 +11,6 @@ conn.connect();
 
 // 增加用户接口
 router.post('/addUser', (req, res) => {
-  // 获得客户端的Cookie
-  var Cookies = {};
-  req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
-    var parts = Cookie.split('=');
-    Cookies[parts[0].trim()] = (parts[1] || '').trim();
-  });
   var sql = $sql.user.add;
   var params = req.body;
   if (!_.isRequired(params, res)) return false

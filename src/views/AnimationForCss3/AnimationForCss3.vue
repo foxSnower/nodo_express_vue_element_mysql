@@ -17,10 +17,12 @@
       </el-table-column>
     </el-table>
     <el-dialog title="新增大类" :visible.sync="dialogVisible" width="500px">
-      <el-form ref="form" label-width="100px">
-        <el-form-item label="效果类型">
+      <el-form ref="form" label-width="100px" size="small">
+        <!-- <el-form-item label="效果类型">
           <el-input v-model="effect_name"></el-input>
-        </el-form-item>
+        </el-form-item> -->
+        <HInput label="效果类型" v-model="effect_name"></HInput>
+        <HSelect label="效果类型" v-model="effect_name" :name.sync="name" :optionList="effectList" :props="{label:'effect_name',value:'effect_id'}"></HSelect>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -28,20 +30,6 @@
       </span>
     </el-dialog>
   </div>
-
-  <!-- <el-form ref="form" label-width="100px">
-    <el-form-item label="效果类型">
-      <el-input v-model="user_name"></el-input>
-    </el-form-item>
-    <el-form-item label="名称">
-      <el-input v-model="user_password"></el-input>
-    </el-form-item>
-    <el-form-item label="中文名称">
-      <el-input v-model="user_password"></el-input>
-    </el-form-item>
-    <el-button width="180px" type="primary" @click="addUser">登 录</el-button>
-   
-  </el-form> -->
 </template>
 
 <script>
@@ -49,6 +37,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
+      effect_name: '11',
+      name: '',
       tableData: [
         {
           effect_id: '1',
@@ -72,8 +62,14 @@ export default {
             }
           ]
         }
-      ]
+      ],
+
+      effectList: []
     };
+  },
+  components: {
+    HInput: () => import('@components/HInput'),
+    HSelect: () => import('@components/HSelect')
   },
   mounted() {
     this.selectAnimate();
@@ -81,7 +77,7 @@ export default {
   methods: {
     selectAnimate() {
       this.$api.selectAnimate({}).then(res => {
-        
+        this.effectList = res.data;
       });
     }
   }
