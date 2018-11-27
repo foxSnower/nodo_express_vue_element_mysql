@@ -32,17 +32,22 @@ export default {
     optionList: Array,
     props: Object
   },
-  mounted() {
-    this.$nextTick(() => {
-      this.currentValue = this.value;
-    });
+  watch: {
+    value(cur, old) {
+      this.currentValue = cur;
+    }
   },
+  // mounted() {
+  //   this.$nextTick(() => {
+  //     this.currentValue = this.value;
+  //   });
+  // },
   methods: {
     handleChange(val) {
       this.$emit('change', val);
       this.$emit('input', this.currentValue);
       this.$emit('update:name', this.getName);
-    },
+    }
   },
   computed: {
     placeholderName() {
@@ -53,12 +58,10 @@ export default {
       let filterOptionList = this.filterOptionList;
       filterOptionList.forEach(x => {
         if (x.value == this.currentValue) {
-          name = x.lable
+          name = x.lable;
         }
       });
-      console.log(name);
-      
-      return name
+      return name;
     },
     filterOptionList() {
       let optionList = this.optionList;

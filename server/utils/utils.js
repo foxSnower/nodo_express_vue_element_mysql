@@ -1,10 +1,13 @@
 // var $msg = require('./msg');
 var is = require('is-js');
+var mysql = require('mysql');
+var models = require('../db/db');
+// 连接数据库
+var conn = mysql.createConnection(models.mysql);
+conn.connect();
 
 module.exports = {
-  isSuccess: (res, data, msg) => {
-    console.log(res, data, msg);
-
+  isSuccess: function(res, data, msg) {
     msg = msg ? msg : '操作成功';
     res.json({
       code: '0',
@@ -12,7 +15,7 @@ module.exports = {
       msg: msg
     });
   },
-  isError: (res, err_code, msg) => {
+  isError: function(res, err_code, msg) {
     msg = msg ? msg : '操作失败';
     res.json({
       code: '1',
@@ -30,7 +33,7 @@ module.exports = {
     }
   },
   isString: function (value, res) {
-    if (is.string(value)) {
+    if (is.string(String(value))) {
       return true
     } else {
       let msg = value + ' is not String;'
@@ -70,5 +73,14 @@ module.exports = {
     } else {
       return true
     }
-  }
+  },
+  sqlQuery: function(res, sql, params, callback){
+    let _vm = this;
+    console.log(params);
+    
+    conn.query(sql, params, function (err, result) {
+      if (err) _vm.isError(res, err.sqlMessage);
+      if (result) return callback(result);
+    })
+  },
 }

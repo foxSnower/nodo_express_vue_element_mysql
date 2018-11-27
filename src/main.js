@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 
 import ElementUI from 'element-ui'
+import is from "is-js";
 // import 'element-ui/lib/theme-chalk/index.css'
 import '@/style/theme/element-EF8E6B/index.css'
 import '@/style/index.scss'
@@ -14,6 +15,8 @@ import api from './api/api.js'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+
+Vue.prototype.$is = is;
 
 /* eslint-disable no-new */
 new Vue({

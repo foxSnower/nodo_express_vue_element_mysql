@@ -23,10 +23,9 @@ var jsonWrite = function(res, ret) {
 router.post('/addUser', (req, res) => {
     var sql = $sql.user.add;
     var params = req.body;
-    console.log(params);
     conn.query(sql, [params.name, params.price], function(err, result) {
         if (err) {
-            console.log(err);
+         
         }
         if (result) {
             jsonWrite(res, result);

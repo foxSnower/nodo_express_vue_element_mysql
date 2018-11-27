@@ -1,34 +1,19 @@
 import Vue from 'vue'
 import http from './http.js'
-import {
-  Message
-} from 'element-ui';
 
-
-const TEST = 'http://172.16.202.214:33011'
+const system = Vue.prototype.$GLOBAL.BASE_URL + '/api';
+const local = './static'
 
 const comAPI = (method, url, params) => {
   switch (method) {
     case 'post':
       return http.post(url, params).then(res => {
-        if (res.code == "0") {
-          return res
-        } else {
-          Message.error(res.msg)
-          return res
-        }
+        return res
       })
       break;
     case 'get':
-      return http.get(url, {
-        params
-      }).then(res => {
-        if (res.returnCode == "0000" || res.code == 0 || res.code == "0000") {
-          return res
-        } else {
-          // Message.error(res.codeDesc || res.msg)
-          return res
-        }
+      return http.get(url, {params}).then(res => {
+        return res
       })
       break;
     default:
@@ -39,16 +24,14 @@ const comAPI = (method, url, params) => {
 
 const api = {
   //登陆
-  addUser(params) {
-    return comAPI('post', '/user/addUser', params)
-  },
-  addTest(params) {
-    return comAPI('post', '/test/addTest', params)
-  },
+  addUser(params) {return comAPI('post', system + '/user/addUser', params)},
+  addTest(params) {return comAPI('post', system + '/test/addTest', params)},
   //animate
-  selectAnimate(params){
-    return comAPI('post', '/animate/selectAnimate', params)
-  }
+  getAnimate(params) {return comAPI('post', system + '/animate/getAnimate', params)},
+  getAnimateType(params) {return comAPI('post', system + '/animate/getAnimateType', params)},
+  getAnimateAll(params) {return comAPI('post', system + '/animate/getAnimateAll', params)},
+  getAnimateJson(params) {return comAPI('get', local + '/animate.json', params)},
+  addAnimate(params) {return comAPI('post', system + '/animate/addAnimate', params)},
 }
 
 Vue.prototype.$http = http;

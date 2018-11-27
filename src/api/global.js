@@ -10,7 +10,7 @@
 
 import Vue from 'vue'
 
-const DEV = 'http://127.0.0.1:3000/api';
+const DEV = 'http://127.0.0.1:3000';
 const SIT = 'http://172.16.200.112:30111';
 const UAT = 'http://47.106.46.65:30111';
 const PRD = 'http://120.79.162.165:30111';
@@ -18,7 +18,7 @@ const PRD = 'http://120.79.162.165:30111';
 console.log("-----当前环境-------：" + process.env.NODE_ENV_BUILD);
 
 let URL = eval(process.env.NODE_ENV_BUILD);
-// let URL = process.env.NODE_ENV_BUILD;
+
 //默认进件管理系统
 const global_ = {
   BASE_URL: URL,

@@ -1,4 +1,4 @@
-[{
+{
   "defaults": "-webkit-animation:1s .2s ease both;",
   "flash": {
     "name": "-webkit-animation-name:flash;",
@@ -212,4 +212,4 @@
     "name": "-webkit-animation-name:rollOut;",
     "keyframes": "@-webkit-keyframes rollOut{0%{opacity:1;-webkit-transform:translateX(0px) rotate(0deg)}100%{opacity:0;-webkit-transform:translateX(100%) rotate(120deg)}}"
   }
-}]
+}

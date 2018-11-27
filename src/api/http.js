@@ -6,13 +6,11 @@ import {
   Message
 } from 'element-ui'
 
-
-
 const http = axios.create({
-  timeout: 1000 * 5,
-  baseURL: Vue.prototype.$GLOBAL.BASE_URL,
+  timeout: 1000 * 10,
+  baseURL: '',
   headers: {
-    'app': Vue.prototype.$GLOBAL.APP,
+    // 'app': Vue.prototype.$GLOBAL.APP,
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json; charset=utf-8'
   }
@@ -115,13 +113,23 @@ const http = axios.create({
 //  * 响应拦截
 //  */
 http.interceptors.response.use(res => {
-  if (res.data.code === '0') {
-    return res.data
+  if (res.data.code) {
+    if (res.data.code === '0') {
+      return res.data
+    } else {
+      Message.error(res.data.msg);
+    }
   } else {
-    Message.error(res.data.msg);
+    return res.data
   }
 }, err => {
-  Message.error('服务器正在维护,请稍后在试 !')
+  let response = err.response;
+  let status = response.status;
+  if (status === 500) {
+    Message.error('服务器正在维护,请稍后在试')
+  } else {
+    Message.error(String(status))
+  }
   return Promise.reject(err)
 })
 
