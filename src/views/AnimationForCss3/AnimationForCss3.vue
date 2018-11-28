@@ -10,16 +10,16 @@
       <el-table-column label="操作" width="120">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="editEffect('edit',scope.row)">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button type="text" size="small" @click="deleteEffect(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px">
       <el-form :model="params" ref="form" label-width="120px" size="small">
-        <HSelect label="动画名称" v-model.trim="params.effect_id" :name.sync="params.effect_name" :optionList="filterEffectList" :props="{label:'effect_name',value:'effect_id'}"></HSelect>
-        <HInput v-if="params.effect_id==='other'" label="新增动画名称" v-model.trim="params.effect_name"></HInput>
-        <HInput label="新增类型名称" v-model.trim="params.effect_type_name"></HInput>
-        <HInput label="新增类型编码" v-model.trim="params.effect_type_code"></HInput>
+        <HSelect label="动画名称" v-model="params.effect_id" :name.sync="params.effect_name" :optionList="filterEffectList" :props="{label:'effect_name',value:'effect_id'}" :disabled="dialogDisabled"></HSelect>
+        <HInput v-if="params.effect_id==='other'" label="新增动画名称" v-model="params.effect_name"></HInput>
+        <HInput label="类型名称" v-model="params.effect_type_name"></HInput>
+        <HInput label="类型编码" v-model="params.effect_type_code"></HInput>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -34,7 +34,8 @@ export default {
   data() {
     return {
       dialogVisible: false,
-      dialogTitle: '',
+      dialogTitle: "",
+      dialogDisabled: false,
       //动画大类
       effectList: [],
       //动画列表
@@ -59,14 +60,17 @@ export default {
     }
   },
   components: {
-    HInput: () => import('@components/HInput'),
-    HSelect: () => import('@components/HSelect')
+    HInput: () => import("@components/HInput"),
+    HSelect: () => import("@components/HSelect")
   },
   mounted() {
-    this.getAnimateAll();
-    this.getAnimateJson();
+    this.getData();
   },
   methods: {
+    getData() {
+      this.getAnimateAll();
+      this.getAnimateJson();
+    },
     //获取动画大类
     getAnimate() {
       this.$api.getAnimate({}).then(res => {
@@ -86,29 +90,59 @@ export default {
       });
     },
     //新增动画
-    addAnimate() {
-      let params = this.params;
-      this.$api.addAnimate(params).then(res => {
-        this.$message.success(res.msg);
+    editAnimate(params, callback) {
+      this.$api.editAnimate(params).then(res => {
+        return callback(res);
       });
+    },
+    //删除动画
+    deleteAnimate(params, callback) {
+      this.$api
+        .deleteAnimate({ effect_type_id: params.effect_type_id })
+        .then(res => {
+          return callback(res);
+        });
     },
     //编辑
     editEffect(type, row) {
       this.dialogVisible = true;
-      if (type === 'add') {
-        this.dialogTitle = '新增动画';
-        for(let i in this.params){
-          this.params[i] = null
+      if (type === "add") {
+        this.dialogTitle = "新增动画";
+        this.dialogDisabled = false;
+        for (let i in this.params) {
+          this.params[i] = null;
         }
       }
-      if (type === 'edit') {
-        this.dialogTitle = '编辑动画';
-        this.params = row;
+      if (type === "edit") {
+        this.dialogTitle = "编辑动画";
+        this.dialogDisabled = true;
+        this.params = Object.assign({}, row);
       }
+    },
+    //删除
+    deleteEffect(row) {
+      this.$confirm("删除后,将失去此信息,是否继续？", "确认信息", {
+        distinguishCancelAndClose: true,
+        confirmButtonText: "是",
+        cancelButtonText: "否",
+        callback: action => {
+          if (action === "confirm") {
+            this.deleteAnimate(row, res => {
+              this.$message.success(res.msg);
+              this.getData();
+            });
+          }
+        }
+      });
     },
     //保存
     save() {
-      this.addAnimate();
+      let params = this.params;
+      this.editAnimate(params, res => {
+        this.$message.success(res.msg);
+        this.dialogVisible = false;
+        this.getData();
+      });
     }
   },
   computed: {
@@ -116,8 +150,8 @@ export default {
     filterEffectList() {
       let effectList = this.effectList;
       effectList.push({
-        effect_id: 'other',
-        effect_name: '其他'
+        effect_id: "other",
+        effect_name: "其他"
       });
       return effectList;
     },
@@ -127,7 +161,11 @@ export default {
       let animateJson = this.animateJson;
       effectAllList.forEach(x => {
         let effect_type_code = x.effect_type_code;
-        this.$set(x, 'effect_detail', JSON.stringify(animateJson[effect_type_code]));
+        this.$set(
+          x,
+          "effect_detail",
+          JSON.stringify(animateJson[effect_type_code])
+        );
       });
       return effectAllList;
     }

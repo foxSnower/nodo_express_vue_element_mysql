@@ -4,10 +4,11 @@ var router = express.Router();
 var $sql = require('../db/sqlMap');
 var _ = require('../utils/utils');
 
-// 增加接口
-router.post('/addAnimate', (req, res) => {
-  var sqlAdd = $sql.animate.add;
-  var sqlAddType = $sql.animate.addType;
+// 编辑接口
+router.post('/editAnimate', (req, res) => {
+  var sql_add = $sql.animate.add;
+  var sql_addType = $sql.animate.addType;
+  var sql_modifyType = $sql.animate.modifyType;
   var params = req.body;
   /**
    * effect_id 空 => 新增 animate_css 表 ,再新增 animate_css_type 表
@@ -21,11 +22,13 @@ router.post('/addAnimate', (req, res) => {
 
   } else {
     if (is.empty(params.effect_type_id)) {
-      _.sqlQuery(res, sqlAddType, [params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
+      _.sqlQuery(res, sql_addType, [params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
         _.isSuccess(res, result, '操作成功');
       })
     } else {
-
+      _.sqlQuery(res, sql_modifyType, [params.effect_id, params.effect_type_code, params.effect_type_name,params.effect_type_id], (result) => {
+        _.isSuccess(res, result, '操作成功');
+      })
     }
   }
 
@@ -36,6 +39,15 @@ router.post('/addAnimate', (req, res) => {
   // _.sqlQuery(res, sqlAddType, [params.effect_type_id, params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
   //   _.isSuccess(res, result, '操作成功');
   // })
+});
+//删除
+router.post('/deleteAnimate', (req, res) => {
+  var sql_deleteType = $sql.animate.deleteType;
+  var params = req.body;
+  if (!_.isRequired(params.effect_type_id, res)) return false
+  _.sqlQuery(res, sql_deleteType, [params.effect_type_id], (result) => {
+    _.isSuccess(res, result, '操作成功');
+  })
 });
 // 查询动画大类接口
 router.post('/getAnimate', (req, res) => {

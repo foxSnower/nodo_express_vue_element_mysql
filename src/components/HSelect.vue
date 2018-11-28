@@ -1,6 +1,6 @@
 <template>
   <el-form-item :label='label' :prop="prop" :rules="rules">
-    <el-select v-model="currentValue" :placeholder="placeholderName" @change="handleChange">
+    <el-select v-model.trim="currentValue" :placeholder="placeholderName" @change="handleChange">
       <el-option v-for="(item,index) in filterOptionList" :key="index" :label="item.lable" :value="item.value"></el-option>
     </el-select>
   </el-form-item>
@@ -32,16 +32,11 @@ export default {
     optionList: Array,
     props: Object
   },
-  watch: {
-    value(cur, old) {
-      this.currentValue = cur;
+  watch:{
+    value(cur){
+      this.currentValue = cur
     }
   },
-  // mounted() {
-  //   this.$nextTick(() => {
-  //     this.currentValue = this.value;
-  //   });
-  // },
   methods: {
     handleChange(val) {
       this.$emit('change', val);

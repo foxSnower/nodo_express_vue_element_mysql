@@ -1,6 +1,6 @@
 <template>
   <el-form-item :label='label' :prop="prop" :rules="rules">
-    <el-input :type="type" :rows="rows" v-model='currentValue' :maxlength="maxlength" :placeholder='placeholderName' @input="handleInput" @change="$emit('change')" :disabled="disabled" :value="currentValue">
+    <el-input :type="type" :rows="rows" v-model.trim='currentValue' :maxlength="maxlength" :placeholder='placeholderName' @input="handleInput" @change="$emit('change')" :disabled="disabled" :value="currentValue">
       <template v-if="append" slot="append">{{append}}</template>
     </el-input>
   </el-form-item>
@@ -28,6 +28,11 @@ export default {
     type: String,
     rows: String,
     rules: [Object, Array]
+  },
+  watch:{
+    value(cur){
+      this.currentValue = cur
+    }
   },
   methods: {
     handleInput(val) {

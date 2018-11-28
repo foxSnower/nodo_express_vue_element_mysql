@@ -31,7 +31,8 @@ const api = {
   getAnimateType(params) {return comAPI('post', system + '/animate/getAnimateType', params)},
   getAnimateAll(params) {return comAPI('post', system + '/animate/getAnimateAll', params)},
   getAnimateJson(params) {return comAPI('get', local + '/animate.json', params)},
-  addAnimate(params) {return comAPI('post', system + '/animate/addAnimate', params)},
+  editAnimate(params) {return comAPI('post', system + '/animate/editAnimate', params)},
+  deleteAnimate(params) {return comAPI('post', system + '/animate/deleteAnimate', params)},
 }
 
 Vue.prototype.$http = http;
