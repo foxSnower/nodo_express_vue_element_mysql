@@ -6,9 +6,9 @@ var _ = require('../utils/utils');
 
 // 编辑接口
 router.post('/editAnimate', (req, res) => {
-  var sql_add = $sql.animate.add;
-  var sql_addType = $sql.animate.addType;
-  var sql_modifyType = $sql.animate.modifyType;
+  var s_add = $sql.animate.add;
+  var s_addType = $sql.animate.addType;
+  var s_modifyType = $sql.animate.modifyType;
   var params = req.body;
   /**
    * effect_id 空 => 新增 animate_css 表 ,再新增 animate_css_type 表
@@ -19,34 +19,31 @@ router.post('/editAnimate', (req, res) => {
   if (!_.isRequired(params.effect_type_code, res)) return false
   if (!_.isRequired(params.effect_type_name, res)) return false
   if (is.empty(params.effect_id)) {
-
+    _.sqlQuery(res, s_add, [params.effect_name], (result) => {
+      let insertId = result.insertId;
+      _.sqlQuery(res, s_addType, [insertId, params.effect_type_code, params.effect_type_name], (result2) => {
+        _.isSuccess(res, null);
+      })
+    })
   } else {
     if (is.empty(params.effect_type_id)) {
-      _.sqlQuery(res, sql_addType, [params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
-        _.isSuccess(res, result, '操作成功');
+      _.sqlQuery(res, s_addType, [params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
+        _.isSuccess(res, null);
       })
     } else {
-      _.sqlQuery(res, sql_modifyType, [params.effect_id, params.effect_type_code, params.effect_type_name,params.effect_type_id], (result) => {
-        _.isSuccess(res, result, '操作成功');
+      _.sqlQuery(res, s_modifyType, [params.effect_id, params.effect_type_code, params.effect_type_name, params.effect_type_id], (result) => {
+        _.isSuccess(res, null);
       })
     }
   }
-
-  // if (!_.isRequired(params, res)) return false
-  // _.sqlQuery(res, sqlAdd, [params.effect_id, params.effect_name], (result) => {
-  //   _.isSuccess(res, result, '操作成功');
-  // })
-  // _.sqlQuery(res, sqlAddType, [params.effect_type_id, params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
-  //   _.isSuccess(res, result, '操作成功');
-  // })
 });
 //删除
 router.post('/deleteAnimate', (req, res) => {
-  var sql_deleteType = $sql.animate.deleteType;
+  var s_deleteType = $sql.animate.deleteType;
   var params = req.body;
   if (!_.isRequired(params.effect_type_id, res)) return false
-  _.sqlQuery(res, sql_deleteType, [params.effect_type_id], (result) => {
-    _.isSuccess(res, result, '操作成功');
+  _.sqlQuery(res, s_deleteType, [params.effect_type_id], (result) => {
+    _.isSuccess(res, null);
   })
 });
 // 查询动画大类接口
@@ -54,7 +51,7 @@ router.post('/getAnimate', (req, res) => {
   var sql = $sql.animate.select;
   var params = req.body;
   _.sqlQuery(res, sql, params, (result) => {
-    _.isSuccess(res, result, '操作成功');
+    _.isSuccess(res, result);
   })
 });
 
@@ -65,22 +62,57 @@ router.post('/getAnimateType', (req, res) => {
   if (!_.isRequired(params, res)) return false
   //params.effect_id 动画主key
   _.sqlQuery(res, sql, params.effect_id, (result) => {
-    _.isSuccess(res, result, '操作成功');
+    _.isSuccess(res, result);
   })
 });
 
 // 查询动画接口
+// router.post('/getAnimateAll', (req, res) => {
+//   var s_selectType = $sql.animate.selectType;
+//   var s_select = $sql.animate.select;
+//   var params = req.body;
+//   var fnSqlSelect = () => {
+//     _.sqlQuery(res, s_select, params, (result) => {
+//       fnSelectType(result)
+//     })
+//   }
+//   var fnSelectType = (animateList) => {
+//     _.sqlQuery(res, s_selectType, params, (result) => {
+//       fnInitList(result, animateList);
+//     })
+//   }
+//   var fnInitList = (animateTypeList, animateList) => {
+//     animateTypeList.forEach(x => {
+//       let effect_id = x.effect_id
+//       animateList.forEach(y => {
+//         if (effect_id == y.effect_id) {
+//           x.effect_name = y.effect_name
+//         }
+//       })
+//     })
+//     //以effect_id排序
+//     animateTypeList.sort(_.sortBy('effect_id'));
+//     _.isSuccess(res, animateTypeList);
+//   }
+//   fnSqlSelect();
+// });
+
+// 查询动画接口
 router.post('/getAnimateAll', (req, res) => {
-  var selectType = $sql.animate.selectType;
-  var sqlSelect = $sql.animate.select;
+  // var s_selectType = $sql.animate.selectType;
+  var s_select = $sql.animate.select;
+  var s_typeCount = $sql.animate.typeCount;
   var params = req.body;
+  var pageSize = params.limit;
+  var start = (params.page-1)*pageSize;
+  var s_limitSql = "select * from animate_css_type order by effect_id asc limit " + start + "," + pageSize;
   var fnSqlSelect = () => {
-    _.sqlQuery(res, sqlSelect, params, (result) => {
+    _.sqlQuery(res, s_select, params, (result) => {
       fnSelectType(result)
     })
   }
   var fnSelectType = (animateList) => {
-    _.sqlQuery(res, selectType, params, (result) => {
+    _.sqlQuery(res, s_limitSql, params, (result) => {
       fnInitList(result, animateList);
     })
   }
@@ -93,9 +125,20 @@ router.post('/getAnimateAll', (req, res) => {
         }
       })
     })
-    _.isSuccess(res, animateTypeList, '操作成功');
+    fnSqlCount(animateTypeList)
+  }
+  //获取数量
+  var fnSqlCount = (animateTypeList) => {
+    _.sqlCount(res, 'animate_css_type', (result) => {
+      _.isSuccess(res, {
+        count: result,
+        data: animateTypeList
+      });
+    })
   }
   fnSqlSelect();
 });
+
+
 
 module.exports = router;

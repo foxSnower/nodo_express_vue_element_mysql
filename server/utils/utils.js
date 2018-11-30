@@ -7,7 +7,7 @@ var conn = mysql.createConnection(models.mysql);
 conn.connect();
 
 module.exports = {
-  isSuccess: function(res, data, msg) {
+  isSuccess: function (res, data, msg) {
     msg = msg ? msg : '操作成功';
     res.json({
       code: '0',
@@ -15,7 +15,7 @@ module.exports = {
       msg: msg
     });
   },
-  isError: function(res, err_code, msg) {
+  isError: function (res, err_code, msg) {
     msg = msg ? msg : '操作失败';
     res.json({
       code: '1',
@@ -74,13 +74,49 @@ module.exports = {
       return true
     }
   },
-  sqlQuery: function(res, sql, params, callback){
+  //获取数据
+  sqlQuery: function (res, sql, params, fun) {
     let _vm = this;
-    console.log(params);
-    
     conn.query(sql, params, function (err, result) {
       if (err) _vm.isError(res, err.sqlMessage);
-      if (result) return callback(result);
+      if (result) fun(result);
     })
   },
+  //获取表的数据数量
+  sqlCount : function (res, table, fun) {
+    let _vm = this;
+    var cSql  = "select count(0) as count from ("+table+")";
+    conn.query(cSql, function (err, result) {
+      if (err) _vm.isError(res, err.sqlMessage);
+      if (result) fun(result[0].count);
+    })
+  },
+   //获取数据的数量
+   sqlLimit : function (res, sql, params, fun) {
+    let _vm = this;
+    var limitSql="select * from ("+sql+")aa limit "+start+","+pageSize;
+    conn.query(limitSql, params, function (err, result) {
+      if (err) _vm.isError(res, err.sqlMessage);
+      if (result) fun(result);
+    })
+  },
+  //排序
+  sortBy: (sortId) => {
+    return function (o, p) {
+      var a, b;
+      if (typeof o === "object" && typeof p === "object" && o && p) {
+        a = o[sortId];
+        b = p[sortId];
+        if (a === b) {
+          return 0;
+        }
+        if (typeof a === typeof b) {
+          return a < b ? -1 : 1;
+        }
+        return typeof a < typeof b ? -1 : 1;
+      } else {
+        throw ("error");
+      }
+    }
+  }
 }

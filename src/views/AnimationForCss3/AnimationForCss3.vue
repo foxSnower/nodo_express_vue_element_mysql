@@ -14,6 +14,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <HtPage :total="total" :currentPage.sync="currentPage" :pageSize.sync="pageSize" @getData="getData"></HtPage>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px">
       <el-form :model="params" ref="form" label-width="120px" size="small">
         <HSelect label="动画名称" v-model="params.effect_id" :name.sync="params.effect_name" :optionList="filterEffectList" :props="{label:'effect_name',value:'effect_id'}" :disabled="dialogDisabled"></HSelect>
@@ -33,6 +34,12 @@
 export default {
   data() {
     return {
+      // 当前分页
+      currentPage: 1,
+      // 每页显示条数
+      pageSize: 10,
+      // 分页总数
+      total: 0,
       dialogVisible: false,
       dialogTitle: "",
       dialogDisabled: false,
@@ -61,15 +68,16 @@ export default {
   },
   components: {
     HInput: () => import("@components/HInput"),
-    HSelect: () => import("@components/HSelect")
+    HSelect: () => import("@components/HSelect"),
+    HtPage: () => import("@components/HtPage")
   },
   mounted() {
     this.getData();
+    this.getAnimateJson();
   },
   methods: {
     getData() {
       this.getAnimateAll();
-      this.getAnimateJson();
     },
     //获取动画大类
     getAnimate() {
@@ -79,9 +87,15 @@ export default {
     },
     //获取动画列表
     getAnimateAll() {
-      this.$api.getAnimateAll({}).then(res => {
-        this.effectAllList = res.data;
-      });
+      this.$api
+        .getAnimateAll({
+          page: this.currentPage,
+          limit: this.pageSize
+        })
+        .then(res => {
+          this.effectAllList = res.data.data;
+          this.total = res.data.count;
+        });
     },
     //获取动画Json数据
     getAnimateJson() {
@@ -138,6 +152,9 @@ export default {
     //保存
     save() {
       let params = this.params;
+      if (params.effect_id == "other") {
+        params.effect_id = null;
+      }
       this.editAnimate(params, res => {
         this.$message.success(res.msg);
         this.dialogVisible = false;
