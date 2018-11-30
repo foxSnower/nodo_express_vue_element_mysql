@@ -83,21 +83,12 @@ module.exports = {
     })
   },
   //获取表的数据数量
-  sqlCount : function (res, table, fun) {
+  sqlCount: function (res, table, fun) {
     let _vm = this;
-    var cSql  = "select count(0) as count from ("+table+")";
+    var cSql = "select count(0) as count from (" + table + ")";
     conn.query(cSql, function (err, result) {
       if (err) _vm.isError(res, err.sqlMessage);
       if (result) fun(result[0].count);
-    })
-  },
-   //获取数据的数量
-   sqlLimit : function (res, sql, params, fun) {
-    let _vm = this;
-    var limitSql="select * from ("+sql+")aa limit "+start+","+pageSize;
-    conn.query(limitSql, params, function (err, result) {
-      if (err) _vm.isError(res, err.sqlMessage);
-      if (result) fun(result);
     })
   },
   //排序

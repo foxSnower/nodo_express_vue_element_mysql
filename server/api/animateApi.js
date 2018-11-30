@@ -99,20 +99,24 @@ router.post('/getAnimateType', (req, res) => {
 
 // 查询动画接口
 router.post('/getAnimateAll', (req, res) => {
-  // var s_selectType = $sql.animate.selectType;
+  var s_selectType = '';
   var s_select = $sql.animate.select;
-  var s_typeCount = $sql.animate.typeCount;
   var params = req.body;
   var pageSize = params.limit;
-  var start = (params.page-1)*pageSize;
-  var s_limitSql = "select * from animate_css_type order by effect_id asc limit " + start + "," + pageSize;
+  var start = 0;
+  if(pageSize){
+    start = (params.page-1)*pageSize;
+    s_selectType ="select * from animate_css_type order by effect_id asc limit " + start + "," + pageSize;
+  }else{
+    s_selectType =$sql.animate.selectType
+  }
   var fnSqlSelect = () => {
     _.sqlQuery(res, s_select, params, (result) => {
       fnSelectType(result)
     })
   }
   var fnSelectType = (animateList) => {
-    _.sqlQuery(res, s_limitSql, params, (result) => {
+    _.sqlQuery(res, s_selectType, params, (result) => {
       fnInitList(result, animateList);
     })
   }
