@@ -14,8 +14,8 @@ import global_ from './api/global.js'
 import api from './api/api.js'
 
 Vue.config.productionTip = false
-Vue.use(ElementUI)
-
+// Vue.use(ElementUI)
+Vue.use(ElementUI, { size: 'small', zIndex: 3000 });
 Vue.prototype.$is = is;
 
 /* eslint-disable no-new */

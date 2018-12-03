@@ -1,20 +1,80 @@
-.el-form .el-form-item{
+* {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+
+}
+
+body {
+  font-size: 12px;
+}
+
+.el-form .el-form-item {
   padding-right: 30px;
 }
+
 .el-select,
 .el-date-editor--date {
   width: 100%;
 }
 
-// .el-date-editor .el-range-separator {
-//   width: 20px;
-// }
+/**
+* 自适应设计
+*/
 
-// .el-range-editor.el-input__inner,
-// .el-cascader {
-//   width: 100%;
-// }
+.f-item1 {
+  width: 100%;
+}
 
-// .el-date-editor.el-input {
-//   width: 100%;
-// }
+.f-item2 {
+  width: 50%;
+}
+
+.f-item3 {
+  width: 33.3%;
+}
+
+.f-item {
+  width: 25%;
+}
+
+@media screen and (max-width: 1920px) {
+  .f-item {
+    width: 25%;
+  }
+
+  .f-item2 {
+    width: 50%;
+  }
+
+  .f-item3 {
+    width: 33.3%;
+  }
+}
+
+@media screen and (max-width: 1640px) {
+
+  .f-item,
+  .f-item3,
+    {
+    width: 33.3%;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+
+  .f-item,
+  .f-item2,
+  .f-item3 {
+    width: 50%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+
+  .f-item,
+  .f-item2,
+  .f-item3 {
+    width: 100%;
+  }
+}

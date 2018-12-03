@@ -67,37 +67,6 @@ router.post('/getAnimateType', (req, res) => {
 });
 
 // 查询动画接口
-// router.post('/getAnimateAll', (req, res) => {
-//   var s_selectType = $sql.animate.selectType;
-//   var s_select = $sql.animate.select;
-//   var params = req.body;
-//   var fnSqlSelect = () => {
-//     _.sqlQuery(res, s_select, params, (result) => {
-//       fnSelectType(result)
-//     })
-//   }
-//   var fnSelectType = (animateList) => {
-//     _.sqlQuery(res, s_selectType, params, (result) => {
-//       fnInitList(result, animateList);
-//     })
-//   }
-//   var fnInitList = (animateTypeList, animateList) => {
-//     animateTypeList.forEach(x => {
-//       let effect_id = x.effect_id
-//       animateList.forEach(y => {
-//         if (effect_id == y.effect_id) {
-//           x.effect_name = y.effect_name
-//         }
-//       })
-//     })
-//     //以effect_id排序
-//     animateTypeList.sort(_.sortBy('effect_id'));
-//     _.isSuccess(res, animateTypeList);
-//   }
-//   fnSqlSelect();
-// });
-
-// 查询动画接口
 router.post('/getAnimateAll', (req, res) => {
   var s_selectType = '';
   var s_select = $sql.animate.select;
