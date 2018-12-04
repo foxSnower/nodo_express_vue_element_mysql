@@ -8,6 +8,9 @@
 body {
   font-size: 12px;
 }
+.f-warn{
+  color:red;
+}
 
 .el-form .el-form-item {
   padding-right: 30px;
@@ -77,4 +80,28 @@ body {
   .f-item3 {
     width: 100%;
   }
+}
+
+
+/**
+ * 滚动条修饰
+ */
+ ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background-color: #e2e2e2;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background-color: #e2e2e2;
 }
