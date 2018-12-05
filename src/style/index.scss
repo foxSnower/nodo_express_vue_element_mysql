@@ -24,7 +24,9 @@ body {
 /**
 * 自适应设计
 */
-
+.f-flex{
+  display: flex;
+}
 .f-item1 {
   width: 100%;
 }
