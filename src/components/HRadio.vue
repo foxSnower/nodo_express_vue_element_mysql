@@ -1,17 +1,18 @@
 <template>
-  <el-form-item :label='label' :prop="prop" :rules="rules">
-    <el-select v-model.trim="currentValue" :placeholder="placeholderName" @change="handleChange">
-      <el-option v-for="(item,index) in filterOptionList" :key="index" :label="item.lable?item.lable:item">{{item.value?item.value:item}}></el-option>
-    </el-select>
+  <el-form-item :label="label" :prop="prop" :rules="rules">
+    <el-radio-group class="ht-group" v-model.trim='currentValue' @change="handleChange" :disabled="disabled">
+      <el-radio v-for="(item,index) in filterOptionList" :key="index" :label="item.lable?item.lable:item">{{item.value?item.value:item}}</el-radio>
+    </el-radio-group>
   </el-form-item>
 </template>
 
 <script>
 export default {
-  name: 'HtSelect',
+  name: "HRadio",
   data() {
     return {
-      currentValue: this.value === undefined || this.value === null ? '' : this.value
+      currentValue:
+        this.value === undefined || this.value === null ? "" : this.value
     };
   },
   props: {
@@ -24,7 +25,7 @@ export default {
     prop: String,
     maxlength: {
       type: String,
-      default: '64'
+      default: "64"
     },
     placeholder: String,
     disabled: Boolean,
@@ -32,21 +33,21 @@ export default {
     optionList: Array,
     props: Object
   },
-  watch:{
-    value(cur){
-      this.currentValue = cur
+  watch: {
+    value(cur) {
+      this.currentValue = cur;
     }
   },
   methods: {
     handleChange(val) {
-      this.$emit('change', val);
-      this.$emit('input', this.currentValue);
-      this.$emit('update:name', this.getName);
+      this.$emit("change", val);
+      this.$emit("input", this.currentValue);
+      this.$emit("update:name", this.getName);
     }
   },
   computed: {
     placeholderName() {
-      return '请选择' + this.label;
+      return "请选择" + this.label;
     },
     getName() {
       let name;
@@ -75,4 +76,12 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.ht-group {
+  position: relative;
+  top: 2px;
+  left: 10px;
+}
+</style>
 

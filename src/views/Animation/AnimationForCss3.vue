@@ -14,7 +14,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <HtPage :total="total" :currentPage.sync="currentPage" :pageSize.sync="pageSize" @getData="getData"></HtPage>
+    <HPage :total="total" :currentPage.sync="currentPage" :pageSize.sync="pageSize" @getData="getData"></HPage>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px">
       <el-form :model="params" ref="form" label-width="120px" size="small">
         <HSelect label="动画名称" v-model="params.effect_id" :name.sync="params.effect_name" :optionList="filterEffectList" :props="{label:'effect_name',value:'effect_id'}" :disabled="dialogDisabled"></HSelect>
@@ -69,7 +69,7 @@ export default {
   components: {
     HInput: () => import("@components/HInput"),
     HSelect: () => import("@components/HSelect"),
-    HtPage: () => import("@components/HtPage")
+    HPage: () => import("@components/HPage")
   },
   mounted() {
     this.getData();

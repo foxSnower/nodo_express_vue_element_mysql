@@ -19,6 +19,38 @@ Vue.config.productionTip = false
 Vue.use(ElementUI, { size: 'small', zIndex: 3000 });
 Vue.prototype.$is = is;
 
+// 全局指令
+Vue.directive('drag', {
+  // 指令的定义
+  bind: function (el, binding) {
+    let oDiv = el; //当前元素
+    let self = this; //上下文
+    // console.log(binding.value);
+    oDiv.onmousedown = function (e) {
+      //鼠标按下，计算当前元素距离可视区的距离
+      let disX = e.clientX - oDiv.offsetLeft;
+      let disY = e.clientY - oDiv.offsetTop;
+      document.onmousemove = function (e) {
+        //通过事件委托，计算移动的距离
+        let l = e.clientX - disX;
+        let t = e.clientY - disY;
+        //移动当前元素
+        oDiv.style.left = l + 'px';
+        oDiv.style.top = t + 'px';
+        binding.value.left = l;
+        binding.value.top = t;
+        console.log(binding);
+      };
+      document.onmouseup = function (e) {
+        document.onmousemove = null;
+        document.onmouseup = null;
+      };
+    };
+  }
+})
+
+
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

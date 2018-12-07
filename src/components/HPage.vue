@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "HtPage",
+  name: "HPage",
   props: ["total", "currentPage", "pageSize"],
   methods: {
     // 翻页
