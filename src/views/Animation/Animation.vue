@@ -39,7 +39,7 @@
         <div v-if="tabName=='2'" key="2">
           <div class="config" style="text-align:center">
             <el-button type="primary" circle @click="executeCode(transitionCode)">动画预览</el-button>
-            <el-button type="warning" circle @click="initOrReset">重 置</el-button>
+            <el-button type="danger" circle @click="initOrReset">重 置</el-button>
           </div>
           <div class="config">
             <label>显示方式</label>
@@ -328,6 +328,10 @@ export default {
       },
       deep: true
     },
+    //切换2D/3D形式时,重置过渡
+    transitionType: function(cur) {
+      this.initOrReset();
+    },
     tabName: function(cur) {
       if (cur == '1') {
         this.showDrag = false;
@@ -463,16 +467,16 @@ export default {
       this.curTransitionCode = ` transform:matrix(${matrix});${transformOrigin}`;
     },
     //改变matrix值
-    handelChangeMatrix(){  
+    handelChangeMatrix() {
       let newArray = [];
       let matrix = this.matrix;
-        matrix.forEach(x => {
-          for (let i in x) {
-            newArray.push(x[i]);
-          }
-        });
-        let newStr = newArray.join(',');
-        this.setTransitionCode2(newStr, 'matrix');
+      matrix.forEach(x => {
+        for (let i in x) {
+          newArray.push(x[i]);
+        }
+      });
+      let newStr = newArray.join(',');
+      this.setTransitionCode2(newStr, 'matrix');
     },
     //改变origin值
     handelChangeOrigin(val, type) {
@@ -533,25 +537,25 @@ export default {
     },
     //重置
     initOrReset() {
-      this.$set(this.initCode,'rotate',0);
-      this.$set(this.initCode,'scaleX',0);
-      this.$set(this.initCode,'scaleY',0);
-      this.$set(this.initCode,'translateX',0);
-      this.$set(this.initCode,'translateY',0);
-      this.$set(this.initCode,'skewX',0);
-      this.$set(this.initCode,'skewY',0);
-      this.$set(this.initCode,'originX',50);
-      this.$set(this.initCode,'originY',50);
-      this.$set(this.initCode,'duration',0.5);
-      this.$set(this.initCode,'delay',0.5);
-      this.$set(this.initCode,'timing','ease');
-      this.$set(this.initCode,'perspective',0);
-      this.$set(this.initCode,'rotateX',0);
-      this.$set(this.initCode,'rotateY',0);
-      this.$set(this.initCode,'rotateZ',0);
-      this.$set(this.initCode,'scaleZ',0);
-      this.$set(this.initCode,'translateZ',0);
-      this.matrix=[{ a: 1, b: 1, c: 0, d: 0, e: 0, f: 0 }];
+      this.$set(this.initCode, 'rotate', 0);
+      this.$set(this.initCode, 'scaleX', 0);
+      this.$set(this.initCode, 'scaleY', 0);
+      this.$set(this.initCode, 'translateX', 0);
+      this.$set(this.initCode, 'translateY', 0);
+      this.$set(this.initCode, 'skewX', 0);
+      this.$set(this.initCode, 'skewY', 0);
+      this.$set(this.initCode, 'originX', 50);
+      this.$set(this.initCode, 'originY', 50);
+      this.$set(this.initCode, 'duration', 0.5);
+      this.$set(this.initCode, 'delay', 0.5);
+      this.$set(this.initCode, 'timing', 'ease');
+      this.$set(this.initCode, 'perspective', 0);
+      this.$set(this.initCode, 'rotateX', 0);
+      this.$set(this.initCode, 'rotateY', 0);
+      this.$set(this.initCode, 'rotateZ', 0);
+      this.$set(this.initCode, 'scaleZ', 0);
+      this.$set(this.initCode, 'translateZ', 0);
+      this.matrix = [{ a: 1, b: 1, c: 0, d: 0, e: 0, f: 0 }];
     }
   },
   computed: {
