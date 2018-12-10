@@ -20,7 +20,7 @@
         <div v-if="tabName=='1'" key="1">
           <el-popover class="popover" placement="bottom" width="400" trigger="click">
             <el-button type="text" icon="iconfont icon-copy-" class="copy-btn" @click.stop="copyText" title="点击复制"></el-button>
-            <el-input id="copyText" type="textarea" rows="30" v-model="animationCode"></el-input>
+            <el-input id="copyText" type="textarea" rows="30" v-model="animationCode" placeholder="选了动画后才会有代码哦!"></el-input>
             <el-button class="foot-btn" type="primary" @click="executeCode(animationCode)">执行代码</el-button>
             <el-button slot="reference" type="primary" circle @click.stop="showCode()">查看代码</el-button>
           </el-popover>
@@ -39,7 +39,7 @@
         <div v-if="tabName=='2'" key="2">
           <div class="config" style="text-align:center">
             <el-button type="primary" circle @click="executeCode(transitionCode)">动画预览</el-button>
-            <el-button type="warning" circle @click="reset">重 置</el-button>
+            <el-button type="warning" circle @click="initOrReset">重 置</el-button>
           </div>
           <div class="config">
             <label>显示方式</label>
@@ -117,7 +117,7 @@
             </el-input>
             <el-slider :min="-500" :max="500" v-model="initCode.translateY" :show-tooltip="false"></el-slider>
           </div>
-           <div class="config" v-if="transitionType=='3D'">
+          <div class="config" v-if="transitionType=='3D'">
             <label>Z轴位移</label>
             <el-input v-model.number="initCode.translateZ">
               <template slot="append">px</template>
@@ -142,32 +142,32 @@
             <el-table-column label="矩阵变形-matrix(a,c,e,b,d,f)c,e值用正弦或余弦值表示">
               <el-table-column label="参数a" min-width="60">
                 <template slot-scope="scope">
-                  <el-input v-model.number="scope.row.a"></el-input>
+                  <el-input v-model.number="scope.row.a" @change="handelChangeMatrix"></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="参数b" min-width="60">
                 <template slot-scope="scope">
-                  <el-input v-model.number="scope.row.b"></el-input>
+                  <el-input v-model.number="scope.row.b" @change="handelChangeMatrix"></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="参数c" min-width="60">
                 <template slot-scope="scope">
-                  <el-input v-model.number="scope.row.c"></el-input>
+                  <el-input v-model.number="scope.row.c" @change="handelChangeMatrix"></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="参数d" min-width="60">
                 <template slot-scope="scope">
-                  <el-input v-model.number="scope.row.d"></el-input>
+                  <el-input v-model.number="scope.row.d" @change="handelChangeMatrix"></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="参数e" min-width="60">
                 <template slot-scope="scope">
-                  <el-input v-model.number="scope.row.e"></el-input>
+                  <el-input v-model.number="scope.row.e" @change="handelChangeMatrix"></el-input>
                 </template>
               </el-table-column>
               <el-table-column label="参数f" min-width="60">
                 <template slot-scope="scope">
-                  <el-input v-model.number="scope.row.f"></el-input>
+                  <el-input v-model.number="scope.row.f" @change="handelChangeMatrix"></el-input>
                 </template>
               </el-table-column>
             </el-table-column>
@@ -222,7 +222,6 @@
             </el-row>
           </div>
 
-         
           <div class="config">
             <pre>{{transitionCode}}</pre>
           </div>
@@ -266,27 +265,8 @@ export default {
       //当前过渡动画
       curTransitionCode: '',
       //过渡动画参数
-      initCode: {
-        rotate: 0,
-        scaleX: 0,
-        scaleY: 0,
-        translateX: 0,
-        translateY: 0,
-        skewX: 0,
-        skewY: 0,
-        originX: 50,
-        originY: 50,
-        duration: 0.5,
-        delay: 0.5,
-        timing: 'ease',
-        perspective: 0,
-        rotateX: 0,
-        rotateY: 0,
-        rotateZ: 0,
-        scaleZ: 0,
-        translateZ: 0
-      },
-      matrix: [{ a: 1, b: 1, c: 0, d: 0, e: 0, f: 0 }],
+      initCode: {},
+      matrix: [],
       transitionType: '2D'
     };
   },
@@ -339,19 +319,6 @@ export default {
       },
       deep: true
     },
-    matrix: {
-      handler: function(cur) {
-        let newArray = [];
-        cur.forEach(x => {
-          for (let i in x) {
-            newArray.push(x[i]);
-          }
-        });
-        let newStr = newArray.join(',');
-        this.setTransitionCode2(newStr, 'matrix');
-      },
-      deep: true
-    },
     drag: {
       handler: function(cur, old) {
         let originX = (((cur.left + 15) / 300) * 100).toFixed(0);
@@ -361,27 +328,16 @@ export default {
       },
       deep: true
     },
-    transitionType: function(cur) {
-      if (cur == '3D') {
-        this.showDrag = false;
-      }
-      if (cur == '2D') {
-        this.showDrag = true;
-      }
-    },
     tabName: function(cur) {
       if (cur == '1') {
         this.showDrag = false;
       } else {
-        if (this.transitionType == '2D') {
-          this.showDrag = true;
-        } else {
-          this.showDrag = false;
-        }
+        this.showDrag = true;
       }
     }
   },
   mounted() {
+    this.initOrReset();
     this.getData();
     this.getAnimateJson();
   },
@@ -506,6 +462,18 @@ export default {
       this.transitionCode = transitionCode;
       this.curTransitionCode = ` transform:matrix(${matrix});${transformOrigin}`;
     },
+    //改变matrix值
+    handelChangeMatrix(){  
+      let newArray = [];
+      let matrix = this.matrix;
+        matrix.forEach(x => {
+          for (let i in x) {
+            newArray.push(x[i]);
+          }
+        });
+        let newStr = newArray.join(',');
+        this.setTransitionCode2(newStr, 'matrix');
+    },
     //改变origin值
     handelChangeOrigin(val, type) {
       if (type == 'X') {
@@ -564,7 +532,27 @@ export default {
       this.dialogVisible = true;
     },
     //重置
-    reset() {}
+    initOrReset() {
+      this.$set(this.initCode,'rotate',0);
+      this.$set(this.initCode,'scaleX',0);
+      this.$set(this.initCode,'scaleY',0);
+      this.$set(this.initCode,'translateX',0);
+      this.$set(this.initCode,'translateY',0);
+      this.$set(this.initCode,'skewX',0);
+      this.$set(this.initCode,'skewY',0);
+      this.$set(this.initCode,'originX',50);
+      this.$set(this.initCode,'originY',50);
+      this.$set(this.initCode,'duration',0.5);
+      this.$set(this.initCode,'delay',0.5);
+      this.$set(this.initCode,'timing','ease');
+      this.$set(this.initCode,'perspective',0);
+      this.$set(this.initCode,'rotateX',0);
+      this.$set(this.initCode,'rotateY',0);
+      this.$set(this.initCode,'rotateZ',0);
+      this.$set(this.initCode,'scaleZ',0);
+      this.$set(this.initCode,'translateZ',0);
+      this.matrix=[{ a: 1, b: 1, c: 0, d: 0, e: 0, f: 0 }];
+    }
   },
   computed: {
     //整理动画的数据
