@@ -337,6 +337,8 @@ export default {
         this.curTransitionCode = '';
       } else {
         this.showDrag = true;
+        this.curAnimationName = '';
+        this.curTransitionCode = '';
       }
     }
   },
@@ -365,13 +367,6 @@ export default {
     changeAnimate(row) {
       this.curAnimationName = row.effect_type_code;
       this.setAnimationCode(row.effect_type_code);
-      // this.curAnimationName = '';
-      // if (row.effect_type_code) {
-      //   setTimeout(() => {
-      //     this.curAnimationName = row.effect_type_code;
-      //     this.setAnimationCode(row.effect_type_code);
-      //   }, 10);
-      // }
     },
     //编写代码
     setAnimationCode(code) {
