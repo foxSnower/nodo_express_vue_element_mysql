@@ -1,0 +1,380 @@
+{
+  "code": "0",
+  "data": {
+    "count": 53,
+    "data": [
+      {
+        "effect_type_id": 1,
+        "effect_id": 1,
+        "effect_type_code": "flash",
+        "effect_type_name": "闪光灯",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 3,
+        "effect_id": 1,
+        "effect_type_code": "bounce",
+        "effect_type_name": "弹起",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 4,
+        "effect_id": 1,
+        "effect_type_code": "shake",
+        "effect_type_name": "摇摆",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 5,
+        "effect_id": 1,
+        "effect_type_code": "tada",
+        "effect_type_name": "秋千",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 6,
+        "effect_id": 1,
+        "effect_type_code": "swing",
+        "effect_type_name": "摇晃",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 7,
+        "effect_id": 1,
+        "effect_type_code": "wobble",
+        "effect_type_name": "疯狂摆动",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 8,
+        "effect_id": 1,
+        "effect_type_code": "pulse",
+        "effect_type_name": "脉冲",
+        "effect_name": "基本效果"
+      },
+      {
+        "effect_type_id": 9,
+        "effect_id": 3,
+        "effect_type_code": "fadeIn",
+        "effect_type_name": "淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 10,
+        "effect_id": 2,
+        "effect_type_code": "flip",
+        "effect_type_name": "翻转",
+        "effect_name": "翻转"
+      },
+      {
+        "effect_type_id": 11,
+        "effect_id": 2,
+        "effect_type_code": "flipInX",
+        "effect_type_name": "X轴淡入",
+        "effect_name": "翻转"
+      },
+      {
+        "effect_type_id": 12,
+        "effect_id": 2,
+        "effect_type_code": "flipOutX",
+        "effect_type_name": "X轴淡出",
+        "effect_name": "翻转"
+      },
+      {
+        "effect_type_id": 13,
+        "effect_id": 2,
+        "effect_type_code": "flipInY",
+        "effect_type_name": "Y轴淡入",
+        "effect_name": "翻转"
+      },
+      {
+        "effect_type_id": 14,
+        "effect_id": 2,
+        "effect_type_code": "flipOutY",
+        "effect_type_name": "Y轴淡出",
+        "effect_name": "翻转"
+      },
+      {
+        "effect_type_id": 15,
+        "effect_id": 3,
+        "effect_type_code": "fadeInUp",
+        "effect_type_name": "下方淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 16,
+        "effect_id": 3,
+        "effect_type_code": "fadeInDown",
+        "effect_type_name": " 上方淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 17,
+        "effect_id": 3,
+        "effect_type_code": "fadeInLeft",
+        "effect_type_name": "左边淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 18,
+        "effect_id": 3,
+        "effect_type_code": "fadeInRight",
+        "effect_type_name": "右边淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 19,
+        "effect_id": 3,
+        "effect_type_code": "fadeInUpBig",
+        "effect_type_name": "底部淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 20,
+        "effect_id": 3,
+        "effect_type_code": "fadeInDownBig",
+        "effect_type_name": "顶部淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 21,
+        "effect_id": 3,
+        "effect_type_code": "fadeInLeftBig",
+        "effect_type_name": "页面左边淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 22,
+        "effect_id": 3,
+        "effect_type_code": "fadeInRightBig",
+        "effect_type_name": "页面右边淡入",
+        "effect_name": "淡入效果"
+      },
+      {
+        "effect_type_id": 23,
+        "effect_id": 4,
+        "effect_type_code": "fadeOut",
+        "effect_type_name": "淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 24,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutUp",
+        "effect_type_name": "向上淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 25,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutDown",
+        "effect_type_name": "向下淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 26,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutLeft",
+        "effect_type_name": " 向左淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 27,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutRight",
+        "effect_type_name": "向右淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 28,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutUpBig",
+        "effect_type_name": "顶部淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 29,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutDownBig",
+        "effect_type_name": "底部淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 30,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutLeftBig",
+        "effect_type_name": "页面左边淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 31,
+        "effect_id": 4,
+        "effect_type_code": "fadeOutRightBig",
+        "effect_type_name": "页面右边淡出",
+        "effect_name": "淡出效果"
+      },
+      {
+        "effect_type_id": 32,
+        "effect_id": 5,
+        "effect_type_code": "bounceIn",
+        "effect_type_name": "bounceIn",
+        "effect_name": "弹跳进入效果"
+      },
+      {
+        "effect_type_id": 33,
+        "effect_id": 5,
+        "effect_type_code": "bounceInDown",
+        "effect_type_name": "bounceInDown",
+        "effect_name": "弹跳进入效果"
+      },
+      {
+        "effect_type_id": 34,
+        "effect_id": 5,
+        "effect_type_code": "bounceInUp",
+        "effect_type_name": "bounceInUp",
+        "effect_name": "弹跳进入效果"
+      },
+      {
+        "effect_type_id": 35,
+        "effect_id": 5,
+        "effect_type_code": "bounceInLeft",
+        "effect_type_name": "bounceInLeft",
+        "effect_name": "弹跳进入效果"
+      },
+      {
+        "effect_type_id": 36,
+        "effect_id": 5,
+        "effect_type_code": "bounceInRight",
+        "effect_type_name": "bounceInRight",
+        "effect_name": "弹跳进入效果"
+      },
+      {
+        "effect_type_id": 37,
+        "effect_id": 6,
+        "effect_type_code": "bounceOut",
+        "effect_type_name": "bounceOut",
+        "effect_name": "弹跳退出效果"
+      },
+      {
+        "effect_type_id": 38,
+        "effect_id": 6,
+        "effect_type_code": "bounceOutDown",
+        "effect_type_name": "bounceOutDown",
+        "effect_name": "弹跳退出效果"
+      },
+      {
+        "effect_type_id": 39,
+        "effect_id": 6,
+        "effect_type_code": "bounceOutUp",
+        "effect_type_name": "bounceOutUp",
+        "effect_name": "弹跳退出效果"
+      },
+      {
+        "effect_type_id": 40,
+        "effect_id": 6,
+        "effect_type_code": "bounceOutLeft",
+        "effect_type_name": "bounceOutLeft",
+        "effect_name": "弹跳退出效果"
+      },
+      {
+        "effect_type_id": 41,
+        "effect_id": 6,
+        "effect_type_code": "bounceOutRight",
+        "effect_type_name": "bounceOutRight",
+        "effect_name": "弹跳退出效果"
+      },
+      {
+        "effect_type_id": 42,
+        "effect_id": 7,
+        "effect_type_code": "rotateIn",
+        "effect_type_name": "rotateIn",
+        "effect_name": "旋转进入效果"
+      },
+      {
+        "effect_type_id": 43,
+        "effect_id": 7,
+        "effect_type_code": "rotateInDownLeft",
+        "effect_type_name": "rotateInDownLeft",
+        "effect_name": "旋转进入效果"
+      },
+      {
+        "effect_type_id": 44,
+        "effect_id": 7,
+        "effect_type_code": "rotateInDownRight",
+        "effect_type_name": "rotateInDownRight",
+        "effect_name": "旋转进入效果"
+      },
+      {
+        "effect_type_id": 45,
+        "effect_id": 7,
+        "effect_type_code": "rotateInUpLeft",
+        "effect_type_name": "rotateInUpLeft",
+        "effect_name": "旋转进入效果"
+      },
+      {
+        "effect_type_id": 46,
+        "effect_id": 7,
+        "effect_type_code": "rotateInUpRight",
+        "effect_type_name": "rotateInUpRight",
+        "effect_name": "旋转进入效果"
+      },
+      {
+        "effect_type_id": 47,
+        "effect_id": 8,
+        "effect_type_code": "rotateOut",
+        "effect_type_name": "rotateOut",
+        "effect_name": "旋转退出效果"
+      },
+      {
+        "effect_type_id": 48,
+        "effect_id": 8,
+        "effect_type_code": "rotateOutDownLeft",
+        "effect_type_name": "rotateOutDownLeft",
+        "effect_name": "旋转退出效果"
+      },
+      {
+        "effect_type_id": 49,
+        "effect_id": 8,
+        "effect_type_code": "rotateOutDownRight",
+        "effect_type_name": "rotateOutDownRight",
+        "effect_name": "旋转退出效果"
+      },
+      {
+        "effect_type_id": 50,
+        "effect_id": 8,
+        "effect_type_code": "rotateOutUpLeft",
+        "effect_type_name": "rotateOutUpLeft",
+        "effect_name": "旋转退出效果"
+      },
+      {
+        "effect_type_id": 51,
+        "effect_id": 8,
+        "effect_type_code": "rotateOutUpRight",
+        "effect_type_name": "rotateOutUpRight",
+        "effect_name": "旋转退出效果"
+      },
+      {
+        "effect_type_id": 52,
+        "effect_id": 9,
+        "effect_type_code": "hinge",
+        "effect_type_name": "hinge",
+        "effect_name": "特效"
+      },
+      {
+        "effect_type_id": 53,
+        "effect_id": 9,
+        "effect_type_code": "rollIn",
+        "effect_type_name": "rollIn",
+        "effect_name": "特效"
+      },
+      {
+        "effect_type_id": 54,
+        "effect_id": 9,
+        "effect_type_code": "rollOut",
+        "effect_type_name": "rollOut",
+        "effect_name": "特效"
+      }
+    ]
+  },
+  "msg": "操作成功"
+}

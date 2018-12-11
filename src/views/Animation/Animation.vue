@@ -17,7 +17,7 @@
         <el-button class="f-item" type="primary" circle @click.stop="tabName='2'" :disabled="tabName=='2'">变形&过渡</el-button>
       </el-row>
       <transition-group name="el-zoom-in-center">
-        <div v-if="tabName=='1'" key="1">
+        <div v-show="tabName=='1'" key="1">
           <el-popover class="popover" placement="bottom" width="400" trigger="click">
             <el-button type="text" icon="iconfont icon-copy-" class="copy-btn" @click.stop="copyText" title="点击复制"></el-button>
             <el-input id="copyText" type="textarea" rows="30" v-model="animationCode" placeholder="选了动画后才会有代码哦!"></el-input>
@@ -31,12 +31,12 @@
             </el-row>
           </div>
           <div>
-            <p>以上实例来源于：<span class="f-warn">http://www.shouce.ren/example/show/s/6869</span></p>
-            <p>相关链接1：<span class="f-warn"> http://www.runoob.com/css3tool</span></p>
-            <p>相关链接2：<span class="f-warn">https://www.css88.com/tool/css3Preview/</span></p>
+            <p>以上实例来源于：<a class="f-warn" href="http://www.shouce.ren/example/show/s/6869" target="_blank">http://www.shouce.ren/example/show/s/6869</a></p>
+            <p>相关链接1：<a class="f-warn" href="http://www.runoob.com/css3tool" target="_blank"> http://www.runoob.com/css3tool</a></p>
+            <p>相关链接2：<a class="f-warn" href="https://www.css88.com/tool/css3Preview/" target="_blank">https://www.css88.com/tool/css3Preview/</a></p>
           </div>
         </div>
-        <div v-if="tabName=='2'" key="2">
+        <div v-show="tabName=='2'" key="2">
           <div class="config" style="text-align:center">
             <el-button type="primary" circle @click="executeCode(transitionCode)">动画预览</el-button>
             <el-button type="danger" circle @click="initOrReset">重 置</el-button>
@@ -221,7 +221,6 @@
               </el-popover>
             </el-row>
           </div>
-
           <div class="config">
             <pre>{{transitionCode}}</pre>
           </div>
@@ -238,7 +237,6 @@ import cssbeautify from 'cssbeautify';
 import HRadio from '@components/HRadio';
 import HInput from '@components/HInput';
 
-require('./animation.css');
 require('./jquery.js');
 //贝塞尔曲线工具
 require('./bezier.js');
@@ -252,7 +250,7 @@ export default {
         top: 135
       },
       showDrag: false,
-      tabName: '2',
+      tabName: '1',
       //动画列表
       effectAllList: [],
       // 动画Json数据
@@ -335,6 +333,8 @@ export default {
     tabName: function(cur) {
       if (cur == '1') {
         this.showDrag = false;
+        this.curAnimationName='';
+        this.curTransitionCode='';
       } else {
         this.showDrag = true;
       }
@@ -363,13 +363,15 @@ export default {
     },
     //点击动效
     changeAnimate(row) {
-      this.curAnimationName = '';
-      if (row.effect_type_code) {
-        setTimeout(() => {
-          this.curAnimationName = row.effect_type_code;
-          this.setAnimationCode(row.effect_type_code);
-        }, 10);
-      }
+      this.curAnimationName = row.effect_type_code;
+      this.setAnimationCode(row.effect_type_code);
+      // this.curAnimationName = '';
+      // if (row.effect_type_code) {
+      //   setTimeout(() => {
+      //     this.curAnimationName = row.effect_type_code;
+      //     this.setAnimationCode(row.effect_type_code);
+      //   }, 10);
+      // }
     },
     //编写代码
     setAnimationCode(code) {
@@ -394,6 +396,7 @@ export default {
         `;
       animationCode = cssbeautify(animationCode, { indent: '  ' });
       this.animationCode = animationCode;
+      this.executeCode(animationCode);
     },
     //编写过渡代码 通过initCode
     setTransitionCode1(initCode) {

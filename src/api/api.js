@@ -29,7 +29,7 @@ const api = {
   //animate
   getAnimate(params) {return comAPI('post', system + '/animate/getAnimate', params)},
   getAnimateType(params) {return comAPI('post', system + '/animate/getAnimateType', params)},
-  getAnimateAll(params) {return comAPI('post', system + '/animate/getAnimateAll', params)},
+  getAnimateAll(params) {return comAPI('get', local + '/animation.json', params)},
   getAnimateJson(params) {return comAPI('get', local + '/animate.json', params)},
   editAnimate(params) {return comAPI('post', system + '/animate/editAnimate', params)},
   deleteAnimate(params) {return comAPI('post', system + '/animate/deleteAnimate', params)},
