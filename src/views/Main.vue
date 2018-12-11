@@ -4,7 +4,7 @@
       <el-header>
         <ThemePicker></ThemePicker>
       </el-header>
-      <el-button type="text" icon="iconfont icon-sjiantou04-copy-copy" class="copy-btn"  title="点击"></el-button>
+      <!-- <el-button type="text" icon="iconfont icon-sjiantou04-copy-copy" class="copy-btn"  title="点击"></el-button> -->
       <router-view />
     </el-container>
   </div>

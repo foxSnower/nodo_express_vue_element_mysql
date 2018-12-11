@@ -3,10 +3,10 @@
     <div class="f-item">
       <div class="animation-box">
         <div class="animation" :class="curAnimationName" :style="curTransitionCode">
-          <!-- <img src="@assets/logo (2).png" alt="动画原件"> -->
-          <video src="@assets/video.mp4" controls="controls">
+          <img src="@assets/css3.png" alt="动画原件">
+          <!-- <video src="@assets/video.mp4" controls="controls">
             your browser does not support the video tag
-          </video>
+          </video> -->
           <span v-if="showDrag" class="drag" v-drag="drag" :style="{left:drag.left+'px',top:drag.top+'px'}"></span>
         </div>
       </div>
@@ -333,8 +333,8 @@ export default {
     tabName: function(cur) {
       if (cur == '1') {
         this.showDrag = false;
-        this.curAnimationName='';
-        this.curTransitionCode='';
+        this.curAnimationName = '';
+        this.curTransitionCode = '';
       } else {
         this.showDrag = true;
       }
@@ -641,6 +641,7 @@ export default {
       border-radius: 30px;
       width: 30px;
       height: 30px;
+      cursor: move;
     }
   }
 }
