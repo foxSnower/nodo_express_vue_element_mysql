@@ -50,7 +50,7 @@
   },
   "fadeIn": {
     "name": "-webkit-animation-name:fadeIn;",
-    "keyframes": "{0%{opacity:0}100%{opacity:1}}"
+    "keyframes": "@-webkit-keyframes fadeIn{0%{opacity:0}100%{opacity:1}}"
   },
   "fadeInUp": {
     "name": "-webkit-animation-name:fadeInUp;",
@@ -109,8 +109,8 @@
     "keyframes": "@-webkit-keyframes fadeOutUpBig{0%{opacity:1;-webkit-transform:translateY(0);}100%{opacity:0;-webkit-transform:translateY(-2000px);}}"
   },
   "fadeOutDownBig": {
-    "name": "@-webkit-keyframes fadeOutDownBig{0%{opacity:1;-webkit-transform:translateY(0);}100%{opacity:0;-webkit-transform:translateY(2000px);}}",
-    "keyframes": "-webkit-animation-name:fadeOutDownBig;"
+    "name": "-webkit-animation-name:fadeOutDownBig;",
+    "keyframes": "@-webkit-keyframes fadeOutDownBig{0%{opacity:1;-webkit-transform:translateY(0);}100%{opacity:0;-webkit-transform:translateY(2000px);}}"
   },
   "fadeOutLeftBig": {
     "name": "-webkit-animation-name:fadeOutLeftBig;",
