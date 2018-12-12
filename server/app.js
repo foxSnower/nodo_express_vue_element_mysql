@@ -17,6 +17,8 @@ app.use('/api/user', userApi);
 app.use('/api/test', testApi);
 app.use('/api/animate', animateApi);
 
+app.use(express.static('./dist'));
+
 // 监听端口
 app.listen(3000);
 console.log('success listen at port:3000......');
