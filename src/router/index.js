@@ -9,7 +9,7 @@ export default new Router({
     { path: '/HelloWorld', name: 'HelloWorld', component: HelloWorld },
     { path: '/Login', meta: { title: '欢迎页' }, name: 'Login', component: () => import('@views/Login.vue') },
     {
-      path: '/', redirect: 'Login', meta: { title: 'Main' }, name: 'Main', component: () => import('@views/Main.vue'), children: [
+      path: '/', redirect: 'Animation', meta: { title: 'Main' }, name: 'Main', component: () => import('@views/Main.vue'), children: [
         { path: '/Animation', meta: { title: '欢迎页' }, name: 'Animation', component: () => import('@views/Animation/Animation.vue') },
       ]
     },

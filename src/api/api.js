@@ -32,7 +32,9 @@ const api = {
   getAnimateAll(params) {return comAPI('get', local + '/animation.json', params)},
   getAnimateJson(params) {return comAPI('get', local + '/animate.json', params)},
   editAnimate(params) {return comAPI('post', system + '/animate/editAnimate', params)},
-  deleteAnimate(params) {return comAPI('post', system + '/animate/deleteAnimate', params)},
+  deleteAnimate(params) { return comAPI('post', system + '/animate/deleteAnimate', params) },
+  //获取天气
+  getWeather(params){return comAPI('post', system + '/weather/getWeather', params)},
 }
 
 Vue.prototype.$http = http;

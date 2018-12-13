@@ -6,11 +6,11 @@
 </template>
 
 <style>
-  .theme-picker {
+  /* .theme-picker {
     height: 80px;
     display: inline-block;
     @utils-vertical-center;
-  }
+  } */
 
   .theme-picker .el-color-picker__trigger {
     vertical-align: middle;
