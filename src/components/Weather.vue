@@ -8,7 +8,7 @@
     </div>
     <transition name="el-zoom-in-center">
       <div v-if="showWeather" class="weather">
-        <div class="title">东莞<span>15:45发布</span></div>
+        <div class="title">东莞<span>{{publishTime}}发布</span></div>
         <div class="now">
           <div>
             <img :src="require('@assets/3d_180/'+nowWeather.code+'.png')">
@@ -41,7 +41,7 @@ export default {
   name: 'Weather',
   data() {
     return {
-      city: '',
+      cityInfo: '',
       weather: null,
       dailyWeather: {},
       showWeather: false
@@ -61,23 +61,33 @@ export default {
     }
   },
   mounted() {
-    this.$api.searchCity({}).then(res => {
-      this.city = res.data;
+    this.searchCity(cityInfo => {
+      this.getWeather(cityInfo);
     });
-    this.$api
-      .getDailyWeather({
-        location: 'dongguan'
-      })
-      .then(res => {
-        this.dailyWeather = res.data;
+  },
+  methods: {
+    searchCity(fn) {
+      this.$api.searchCity({}).then(res => {
+        this.cityInfo = res.data;
+        fn(res.data);
       });
-    this.$api
-      .getWeather({
-        location: 'dongguan'
-      })
-      .then(res => {
-        this.weather = res.data;
-      });
+    },
+    getWeather(cityInfo) {
+      this.$api
+        .getDailyWeather({
+          location: cityInfo.id
+        })
+        .then(res => {
+          this.dailyWeather = res.data;
+        });
+      this.$api
+        .getWeather({
+          location: cityInfo.id
+        })
+        .then(res => {
+          this.weather = res.data;
+        });
+    }
   },
   computed: {
     nowWeather() {
@@ -88,6 +98,14 @@ export default {
       } else {
         return null;
       }
+    },
+    publishTime() {
+      let weather = this.weather;
+      let publishTime = '00:00';
+      if (weather) {
+        publishTime = weather.last_update.substr(11, 5);
+      }
+      return publishTime
     }
   }
 };
