@@ -3,6 +3,7 @@ const userApi = require('./api/userApi');
 const testApi = require('./api/testApi');
 const animateApi = require('./api/animateApi');
 const weatherApi = require('./api/weatherApi');
+const markdownApi = require('./api/markdownApi');
 
 const fs = require('fs');
 const path = require('path');
@@ -18,8 +19,9 @@ app.use('/api/user', userApi);
 app.use('/api/test', testApi);
 app.use('/api/animate', animateApi);
 app.use('/api/weather', weatherApi);
+app.use('/api/markdown', markdownApi);
 
-app.use(express.static('../dist'));
+// app.use(express.static('../dist'));
 
 // 监听端口
 app.listen(3000,'0.0.0.0');

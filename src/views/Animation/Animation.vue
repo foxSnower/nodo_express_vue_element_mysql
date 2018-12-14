@@ -604,7 +604,8 @@ export default {
 .right-main {
   width: 400px;
   overflow: auto;
-  background: #f2f2f2;
+  background:  linear-gradient(#f2f2f2, #fff);
+ 
   padding: 10px;
   z-index: 1;
 }

@@ -36,7 +36,9 @@ const api = {
   //获取天气
   getWeather(params){return comAPI('post', system + '/weather/getWeather', params)},
   getDailyWeather(params){return comAPI('post', system + '/weather/getDailyWeather', params)},
-  searchCity(params){return comAPI('post', system + '/weather/searchCity', params)},
+  searchCity(params) { return comAPI('post', system + '/weather/searchCity', params) },
+  //markdown
+  getMarkdown(params){return comAPI('post', system + '/markdown/getMarkdown', params)},
 }
 
 Vue.prototype.$http = http;

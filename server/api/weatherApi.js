@@ -51,7 +51,11 @@ router.post('/searchCity', (req, res) => {
     }).catch(function (err) {
       _.isSuccess(res, err, '请求失败');
     });
-  })
+    }).catch(function (err) {
+    console.log(err);
+    
+    _.isSuccess(res, err, '请求失败');
+  });
 
 })
 

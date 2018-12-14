@@ -15,8 +15,11 @@ var sqlMap = {
     deleteType: 'delete from animate_css_type where effect_type_id=?',
     select: 'select * from animate_css',
     selectType: 'select * from animate_css_type',
-    
     selectTypeForId: 'select * from animate_css_type where effect_id in (?)',
+  },
+  markdown: {
+    add: 'insert into markdown(markdown_id, effect_name) values (0, ?)',
+    select: 'select * from markdown',
   }
 }
 module.exports = sqlMap;

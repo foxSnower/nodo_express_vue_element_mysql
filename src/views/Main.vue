@@ -4,7 +4,7 @@
       <el-header>
         <div class="header">
           <img class="logo" src="@assets/logo3.png">
-          <Weather class=weather></Weather>
+          <!-- <Weather class=weather></Weather> -->
           <ThemePicker class="theme-pick"></ThemePicker>
         </div>
       </el-header>
@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss" scoped>
 .el-header {
-  background-color: #81b0f1;
+  background: linear-gradient(#81b0f1, rgb(5, 71, 116));
   color: #333;
   text-align: left;
   line-height: 60px;

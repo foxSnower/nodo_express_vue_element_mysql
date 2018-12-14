@@ -135,7 +135,7 @@ export default {
     background: linear-gradient(#6f7c85, #919b9f);
     font-size: 14px;
     line-height: 2;
-    z-index: 9;
+    z-index: 9999;
     .title {
       padding: 10px 0 10px 20px;
       span {
