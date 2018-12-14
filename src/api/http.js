@@ -11,6 +11,7 @@ const http = axios.create({
   baseURL: '',
   headers: {
     // 'app': Vue.prototype.$GLOBAL.APP,
+    // 'X-Forwarded-For': '127.0.0.1',
     'X-Requested-With': 'XMLHttpRequest',
     'Content-Type': 'application/json; charset=utf-8'
   }

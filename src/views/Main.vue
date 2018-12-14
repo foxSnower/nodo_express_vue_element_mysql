@@ -4,7 +4,7 @@
       <el-header>
         <div class="header">
           <img class="logo" src="@assets/logo3.png">
-          <Weather></Weather>
+          <Weather class=weather></Weather>
           <ThemePicker class="theme-pick"></ThemePicker>
         </div>
       </el-header>
@@ -35,15 +35,20 @@ export default {
     position: relative;
     width: 100%;
     margin: 0 auto;
-  }
-  .logo {
-    width: 120px;
-    vertical-align: middle;
-  }
-  .theme-pick {
-    position: absolute;
-    right: 0;
-    top: 15px;
+    .weather {
+      float: left;
+      padding-left: 20px;
+    }
+    .logo {
+      height: 40px;
+      padding: 10px 0;
+      float: left;
+    }
+    .theme-pick {
+      position: absolute;
+      right: 0;
+      top: 15px;
+    }
   }
 }
 </style>

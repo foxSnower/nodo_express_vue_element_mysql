@@ -19,8 +19,8 @@ app.use('/api/test', testApi);
 app.use('/api/animate', animateApi);
 app.use('/api/weather', weatherApi);
 
-app.use(express.static('./dist'));
+app.use(express.static('../dist'));
 
 // 监听端口
-app.listen(3000);
+app.listen(3000,'0.0.0.0');
 console.log('success listen at port:3000......');

@@ -35,6 +35,8 @@ const api = {
   deleteAnimate(params) { return comAPI('post', system + '/animate/deleteAnimate', params) },
   //获取天气
   getWeather(params){return comAPI('post', system + '/weather/getWeather', params)},
+  getDailyWeather(params){return comAPI('post', system + '/weather/getDailyWeather', params)},
+  searchCity(params){return comAPI('post', system + '/weather/searchCity', params)},
 }
 
 Vue.prototype.$http = http;
