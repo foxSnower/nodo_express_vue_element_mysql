@@ -4,49 +4,34 @@ var router = express.Router();
 var $sql = require('../db/sqlMap');
 var _ = require('../utils/utils');
 
-// // 编辑接口
-// router.post('/editMarkdown', (req, res) => {
-//   var s_add = $sql.markdown.add;
-//   var s_addType = $sql.animate.addType;
-//   var s_modifyType = $sql.animate.modifyType;
-//   var params = req.body;
-//   /**
-//    * effect_id 空 => 新增 animate_css 表 ,再新增 animate_css_type 表
-//    * effect_id    => effect_type_id 空 => 新增 animate_css_type 表
-//    *                 effect_type_id    => 修改 animate_css_type 表
-//    */
-//   if (!_.isRequired(params.effect_name, res)) return false
-//   if (!_.isRequired(params.effect_type_code, res)) return false
-//   if (!_.isRequired(params.effect_type_name, res)) return false
-//   if (is.empty(params.effect_id)) {
-//     _.sqlQuery(res, s_add, [params.effect_name], (result) => {
-//       let insertId = result.insertId;
-//       _.sqlQuery(res, s_addType, [insertId, params.effect_type_code, params.effect_type_name], (result2) => {
-//         _.isSuccess(res, null);
-//       })
-//     })
-//   } else {
-//     if (is.empty(params.effect_type_id)) {
-//       _.sqlQuery(res, s_addType, [params.effect_id, params.effect_type_code, params.effect_type_name], (result) => {
-//         _.isSuccess(res, null);
-//       })
-//     } else {
-//       _.sqlQuery(res, s_modifyType, [params.effect_id, params.effect_type_code, params.effect_type_name, params.effect_type_id], (result) => {
-//         _.isSuccess(res, null);
-//       })
-//     }
-//   }
-// });
 
-// //删除
-// router.post('/deleteAnimate', (req, res) => {
-//   var s_deleteType = $sql.animate.deleteType;
-//   var params = req.body;
-//   if (!_.isRequired(params.effect_type_id, res)) return false
-//   _.sqlQuery(res, s_deleteType, [params.effect_type_id], (result) => {
-//     _.isSuccess(res, null);
-//   })
-// });
+
+// 编辑接口
+router.post('/editMarkdown', (req, res) => {
+  var s_add = $sql.markdown.add;
+  var s_modify = $sql.markdown.modify;
+  var params = req.body;
+  if (!_.isRequired(params.markdown_title, res)) return false
+  if (is.empty(params.markdown_id)) {
+    _.sqlQuery(res, s_add, [params.markdown_title, params.markdown_value], (result) => {
+      _.isSuccess(res, result.insertId);
+    })
+  } else {
+    _.sqlQuery(res, s_modify, [params.markdown_title, params.markdown_value, params.markdown_id], (result) => {
+      _.isSuccess(res, null);
+    })
+  }
+});
+
+//删除
+router.post('/delMarkdown', (req, res) => {
+  var s_delete = $sql.markdown.delete;
+  var params = req.body;
+  if (!_.isRequired(params.markdown_id, res)) return false
+  _.sqlQuery(res, s_delete, [params.markdown_id], (result) => {
+    _.isSuccess(res, null);
+  })
+});
 // 查询动画大类接口
 router.post('/getMarkdown', (req, res) => {
   var sql = $sql.markdown.select;

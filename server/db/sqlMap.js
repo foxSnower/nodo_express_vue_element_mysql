@@ -18,7 +18,9 @@ var sqlMap = {
     selectTypeForId: 'select * from animate_css_type where effect_id in (?)',
   },
   markdown: {
-    add: 'insert into markdown(markdown_id, effect_name) values (0, ?)',
+    add: 'insert into markdown(markdown_id, markdown_title,markdown_value) values (0, ?,?)',
+    modify: 'update markdown set markdown_title=?, markdown_value=? where markdown_id=?',
+    delete: 'delete from markdown where markdown_id=?',
     select: 'select * from markdown',
   }
 }

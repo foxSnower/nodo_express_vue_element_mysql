@@ -1,3 +1,7 @@
+
+@import "./animation.scss";
+
+
 * {
   margin: 0;
   padding: 0;
@@ -8,6 +12,13 @@
 body {
   font-size: 12px;
   overflow-x: hidden;
+}
+
+.iconfont{
+ font-size: 12px;
+}
+.el-button .iconfont+span{
+  margin-left: 5px;
 }
 .f-warn{
   color:red;

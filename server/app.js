@@ -4,6 +4,7 @@ const testApi = require('./api/testApi');
 const animateApi = require('./api/animateApi');
 const weatherApi = require('./api/weatherApi');
 const markdownApi = require('./api/markdownApi');
+const uploadApi = require('./api/uploadApi');
 
 const fs = require('fs');
 const path = require('path');
@@ -20,6 +21,7 @@ app.use('/api/test', testApi);
 app.use('/api/animate', animateApi);
 app.use('/api/weather', weatherApi);
 app.use('/api/markdown', markdownApi);
+app.use('/api/upload', uploadApi);
 
 // app.use(express.static('../dist'));
 
