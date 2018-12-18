@@ -13,6 +13,9 @@ router.post('/editMarkdown', (req, res) => {
   var params = req.body;
   if (!_.isRequired(params.markdown_title, res)) return false
   if (is.empty(params.markdown_id)) {
+    if (!params.markdown_value) {
+      params.markdown_value = '';
+    }
     _.sqlQuery(res, s_add, [params.markdown_title, params.markdown_value], (result) => {
       _.isSuccess(res, result.insertId);
     })

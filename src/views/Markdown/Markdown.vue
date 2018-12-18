@@ -7,9 +7,12 @@
           <span class="time">{{item.creat_time|filterTime}}</span>
         </div>
       </div>
-      <el-button type="primary" class="btn-add" icon="el-icon-plus" circle title="新建文档" @click="addMd"></el-button>
-      <el-button v-if="showMenu" class="switch" icon="el-icon-d-arrow-left" circle @click="showMenu=!showMenu" title="隐藏列表"></el-button>
-      <el-button v-if="!showMenu" class="switch" :class="{shake:!showMenu}" icon="el-icon-d-arrow-right" circle @click="showMenu=!showMenu" title="展示列表"></el-button>
+      <el-button type="primary" class="btn-menu" :class="{'btn-add':showBtn}" icon="el-icon-plus" circle title="新建文档" @click="addMd"></el-button>
+      <el-button type="primary" class="btn-menu" :class="{'btn-con-menu':showBtn}" icon="el-icon-view" circle title="隐藏列表" @click="addMd"></el-button>
+      <el-button type="primary" class="btn-menu btn-set" icon="el-icon-setting" circle title="设置" @click="showBtn=!showBtn"></el-button>
+      <!-- <el-button v-if="showMenu" class="switch" icon="el-icon-d-arrow-left" circle @click="showMenu=!showMenu" title="隐藏列表"></el-button>
+      <el-button v-if="!showMenu" class="switch" :class="{shake:!showMenu}" icon="el-icon-d-arrow-right" circle @click="showMenu=!showMenu" title="展示列表"></el-button> -->
+
     </div>
     <mavon-editor ref=md class="mavon" :ishljs="true" @imgAdd="imgAdd" v-model="curMark.markdown_value" @save="handleSave()" />
     <!--Right Click Menu-->
@@ -24,6 +27,7 @@
         <el-button type="text" icon="el-icon-delete">删除</el-button>
       </div>
     </el-card>
+    <!-- 新建 or 修改文件名称 -->
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="500px">
       <el-form :model="params" ref="form" label-width="120px">
         <el-form-item label="文件名称">
@@ -48,6 +52,7 @@ export default {
   name: 'markDown',
   data() {
     return {
+      showBtn: false,
       showMenu: true,
       showRightClick: false,
       conMenuPos: {
@@ -115,22 +120,14 @@ export default {
     //保存新建的文档
     saveMd(params) {
       this.$api.editMarkdown(params).then(res => {
-        this.dialogVisible = false;
-        this.params = {};
         //区分是新增还是修改
         if (!params.markdown_id) {
           params.markdown_id = res.data;
-          this.getMarkdowList.push(params);
-          this.curMark = params;
-        } else {
-          let getMarkdowList = this.getMarkdowList;
-          getMarkdowList.forEach((x, index) => {
-            if (x.markdown_id == params.markdown_id) {
-              x.markdown_title = params.markdown_title;
-              this.curMark = x;
-            }
-          });
         }
+        this.curMark = Object.assign({}, params);
+        this.dialogVisible = false;
+        this.params = {};
+        this.getMarkdow();
       });
     },
     //删除文档
@@ -157,29 +154,36 @@ export default {
     selectList(item) {
       let curMark = this.curMark;
       let getMarkdowList = this.getMarkdowList;
-      getMarkdowList.forEach((x, index) => {
-        if (x.markdown_id == curMark.markdown_id) {
-          if (x.markdown_value != curMark.markdown_value) {
-            this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
-              distinguishCancelAndClose: true,
-              confirmButtonText: '保存',
-              cancelButtonText: '放弃修改'
-            })
-              .then(() => {
-                this.handleSave();
-                this.curMark = Object.assign({}, item);
-              })
-              .catch(action => {
-                this.$message({
-                  type: 'info',
-                  message: action === 'cancel' ? '放弃保存并离开页面' : '停留在当前页面'
-                });
-              });
+
+      let modifyContent = null;
+      try {
+        getMarkdowList.forEach((x, index) => {
+          if (x.markdown_id == curMark.markdown_id) {
+            modifyContent = x;
+            throw 'x';
           }
-        } else {
-          this.curMark = Object.assign({}, item);
-        }
-      });
+        });
+      } catch (error) {}
+
+      if (modifyContent.markdown_value != curMark.markdown_value) {
+        this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
+          distinguishCancelAndClose: true,
+          confirmButtonText: '保存',
+          cancelButtonText: '放弃修改'
+        })
+          .then(() => {
+            this.handleSave(() => {
+              this.curMark = Object.assign({}, item);
+            });
+          })
+          .catch(action => {
+            if (action === 'cancel') {
+              this.curMark = Object.assign({}, item);
+            }
+          });
+      } else {
+        this.curMark = Object.assign({}, item);
+      }
     },
     //添加图片
     imgAdd(pos, file) {
@@ -193,11 +197,15 @@ export default {
       });
     },
     //保存
-    handleSave() {
+    handleSave(fn) {
       let param = this.curMark;
       this.$api.editMarkdown(param).then(res => {
         this.$message.success('保存成功');
+
         this.getMarkdow();
+        if (fn) {
+          fn();
+        }
       });
     }
   },
@@ -219,7 +227,11 @@ export default {
       position: relative;
       width: 250px;
       height: 100%;
-      background-color: #fff;
+      // background: url('~@assets/menu_bg.png') no-repeat rgba(0, 0, 0, 0.2);
+      // opacity: 0.5;
+      // background-size: cover;
+      // background-position: center center;
+      background: #fff;
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
       z-index: 1;
       .list {
@@ -228,7 +240,7 @@ export default {
         cursor: pointer;
         &:hover,
         &.active {
-          background-color: #f2f2f2;
+          background-color: rgba(0, 0, 0, 0.2);
         }
         .title {
           text-overflow: ellipsis;
@@ -255,13 +267,30 @@ export default {
         top: 10px;
       }
     }
-    .btn-add {
+    .btn-menu {
       position: absolute;
       z-index: 2;
       top: 50%;
       left: -22px;
       margin-top: -22px;
       font-size: 24px;
+      transition: all 0.2s ease;
+      transform: translate(0, 0);
+      opacity: 0;
+      + .el-button {
+        margin-left: 0;
+      }
+      &.btn-set {
+        opacity: 1;
+      }
+      &.btn-add {
+        opacity: 1;
+        transform: translateY(-52px);
+      }
+      &.btn-con-menu {
+        opacity: 1;
+        transform: translate(44px, -22px);
+      }
     }
     .switch {
       position: absolute;
