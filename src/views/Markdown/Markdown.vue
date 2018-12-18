@@ -8,11 +8,8 @@
         </div>
       </div>
       <el-button type="primary" class="btn-menu" :class="{'btn-add':showBtn}" icon="el-icon-plus" circle title="新建文档" @click="addMd"></el-button>
-      <el-button type="primary" class="btn-menu" :class="{'btn-con-menu':showBtn}" icon="el-icon-view" circle title="隐藏列表" @click="addMd"></el-button>
+      <el-button type="primary" class="btn-menu" :class="{'btn-con-menu':showBtn}" icon="el-icon-view" circle title="隐藏列表" @click="showMenu=!showMenu"></el-button>
       <el-button type="primary" class="btn-menu btn-set" icon="el-icon-setting" circle title="设置" @click="showBtn=!showBtn"></el-button>
-      <!-- <el-button v-if="showMenu" class="switch" icon="el-icon-d-arrow-left" circle @click="showMenu=!showMenu" title="隐藏列表"></el-button>
-      <el-button v-if="!showMenu" class="switch" :class="{shake:!showMenu}" icon="el-icon-d-arrow-right" circle @click="showMenu=!showMenu" title="展示列表"></el-button> -->
-
     </div>
     <mavon-editor ref=md class="mavon" :ishljs="true" @imgAdd="imgAdd" v-model="curMark.markdown_value" @save="handleSave()" />
     <!--Right Click Menu-->
@@ -277,6 +274,7 @@ export default {
       transition: all 0.2s ease;
       transform: translate(0, 0);
       opacity: 0;
+      z-index: 1600;
       + .el-button {
         margin-left: 0;
       }
@@ -308,8 +306,6 @@ export default {
   }
   /deep/ .markdown-body img {
     max-width: 50%;
-    display: block;
-    margin: 0 auto;
   }
   .box-card {
     position: absolute;
