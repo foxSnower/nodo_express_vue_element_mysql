@@ -224,20 +224,19 @@ export default {
       position: relative;
       width: 250px;
       height: 100%;
-      // background: url('~@assets/menu_bg.png') no-repeat rgba(0, 0, 0, 0.2);
-      // opacity: 0.5;
-      // background-size: cover;
-      // background-position: center center;
       background: #fff;
       box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
       z-index: 1;
       .list {
         position: relative;
-        padding: 10px;
+        padding: 12px 10px;
         cursor: pointer;
+        background: url('~@assets/menu_bg.png') no-repeat;
+        background-size: 60px 20px;
+        background-position: bottom -4px right;
         &:hover,
         &.active {
-          background-color: rgba(0, 0, 0, 0.2);
+          background-color: rgba(0, 0, 0, 0.05);
         }
         .title {
           text-overflow: ellipsis;
@@ -306,6 +305,14 @@ export default {
   }
   /deep/ .markdown-body img {
     max-width: 50%;
+  }
+  /deep/ .markdown-body pre {
+    background-color: #333;
+    color: #f2f2f2;
+  }
+  /deep/ .markdown-body blockquote {
+    color: #e6a23c;
+    border-left: 0.25em solid #e6a23c;
   }
   .box-card {
     position: absolute;
