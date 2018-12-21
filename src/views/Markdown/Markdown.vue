@@ -303,16 +303,23 @@ export default {
     width: 100%;
     height: calc(100vh - 100px);
   }
-  /deep/ .markdown-body img {
-    max-width: 50%;
-  }
-  /deep/ .markdown-body pre {
-    background-color: #333;
-    color: #f2f2f2;
-  }
-  /deep/ .markdown-body blockquote {
-    color: #e6a23c;
-    border-left: 0.25em solid #e6a23c;
+  /deep/ {
+    .markdown-body img {
+      max-width: 50%;
+    }
+    .hljs {
+      background: #eee;
+    }
+    .hljs-keyword {
+      color: #e6a23c;
+    }
+    .hljs-function {
+      color: #ce0c0c;
+    }
+    .markdown-body blockquote {
+      color: #e6a23c;
+      border-left: 0.25em solid #e6a23c;
+    }
   }
   .box-card {
     position: absolute;
