@@ -24,6 +24,7 @@ router.post('/editMarkdown', (req, res) => {
       _.isSuccess(res, null);
     })
   }
+  
 });
 
 //删除
@@ -43,64 +44,6 @@ router.post('/getMarkdown', (req, res) => {
     _.isSuccess(res, result);
   })
 });
-
-// 查询动画类型接口
-// router.post('/getAnimateType', (req, res) => {
-//   var sql = $sql.animate.selectTypeForId;
-//   var params = req.body;
-//   if (!_.isRequired(params, res)) return false
-//   //params.effect_id 动画主key
-//   _.sqlQuery(res, sql, params.effect_id, (result) => {
-//     _.isSuccess(res, result);
-//   })
-// });
-
-// 查询动画接口
-// router.post('/getAnimateAll', (req, res) => {
-//   var s_selectType = '';
-//   var s_select = $sql.animate.select;
-//   var params = req.body;
-//   var pageSize = params.limit;
-//   var start = 0;
-//   if(pageSize){
-//     start = (params.page-1)*pageSize;
-//     s_selectType ="select * from animate_css_type order by effect_id asc limit " + start + "," + pageSize;
-//   }else{
-//     s_selectType =$sql.animate.selectType
-//   }
-//   var fnSqlSelect = () => {
-//     _.sqlQuery(res, s_select, params, (result) => {
-//       fnSelectType(result)
-//     })
-//   }
-//   var fnSelectType = (animateList) => {
-//     _.sqlQuery(res, s_selectType, params, (result) => {
-//       fnInitList(result, animateList);
-//     })
-//   }
-//   var fnInitList = (animateTypeList, animateList) => {
-//     animateTypeList.forEach(x => {
-//       let effect_id = x.effect_id
-//       animateList.forEach(y => {
-//         if (effect_id == y.effect_id) {
-//           x.effect_name = y.effect_name
-//         }
-//       })
-//     })
-//     fnSqlCount(animateTypeList)
-//   }
-//   //获取数量
-//   var fnSqlCount = (animateTypeList) => {
-//     _.sqlCount(res, 'animate_css_type', (result) => {
-//       _.isSuccess(res, {
-//         count: result,
-//         data: animateTypeList
-//       });
-//     })
-//   }
-//   fnSqlSelect();
-// });
-
 
 
 module.exports = router;
