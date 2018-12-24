@@ -10,7 +10,7 @@
 
 import Vue from 'vue'
 
-const DEV = 'http://192.168.13.56:8000';
+const DEV = 'http://localhost:8000';
 const SIT = 'http://172.16.200.112:30111';
 const UAT = 'http://47.106.46.65:30111';
 const PRD = 'http://120.79.162.165:30111';
