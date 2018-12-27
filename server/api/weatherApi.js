@@ -30,7 +30,7 @@ router.post('/searchCity', (req, res) => {
   params.key = 'fvfnflrb5vji9ga6';
   //获取外网Ip
   request({
-    url: 'http://ifconfig.me/ip'
+    url: 'http://ifconfig.me/ip',
   }).then(function (result) {
     params.q = result;
     params.unit = 'c';
@@ -50,10 +50,10 @@ router.post('/searchCity', (req, res) => {
     }).then(function (result) {
       _.success(result.results[0]);
     }).catch(function (err) {
-      _.success(err, '请求失败');
+      _.error(err, '请求失败');
     });
   }).catch(function (err) {
-    _.success(err, '请求失败');
+    _.error(err, '请求失败');
   });
 
 })

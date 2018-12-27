@@ -6,16 +6,18 @@
         <img src="@assets/logo.png">
       </div>
       <div class="login_rt">
-        <el-form ref="form" label-width="100px">
+        <el-form ref="form" label-width="100px" size="medium">
           <el-form-item label="账号">
             <el-input v-model="user_name" maxLength="20"></el-input>
           </el-form-item>
           <el-form-item label="密码">
             <el-input v-model="user_password" maxLength="20"></el-input>
           </el-form-item>
-          <el-button width="180px" type="primary" @click="addUser">登 录</el-button>
-          <el-button width="180px" type="primary" @click="$router.push('/AnimationForCss3')">CSS 3</el-button>
-          <el-button width="180px" type="primary" @click="goRegister">注册</el-button>
+          <el-form-item style="text-align:right">
+            <el-button width="180px" type="primary" @click="addUser">登 录</el-button>
+            <!-- <el-button width="180px" type="primary" @click="$router.push('/AnimationForCss3')">CSS 3</el-button> -->
+            <el-button width="180px" type="primary" @click="goRegister">注册</el-button>
+          </el-form-item>
         </el-form>
       </div>
     </div>

@@ -7,7 +7,7 @@ import {
 } from 'element-ui'
 
 const http = axios.create({
-  timeout: 1000 * 10,
+  timeout: 1000 * 5,
   baseURL: '',
   headers: {
     // 'app': Vue.prototype.$GLOBAL.APP,
@@ -126,11 +126,20 @@ http.interceptors.response.use(res => {
   }
 }, err => {
   let response = err.response;
-  let status = response.status;
-  if (status === 500) {
-    Message.error('服务器正在维护,请稍后在试')
+  if (response) {
+    let status = response.status;
+    if (status === 500) {
+      Message.error('服务器正在维护,请稍后在试')
+    } else {
+      Message.error(String(status))
+    }
   } else {
-    Message.error(String(status))
+    if (err.message.indexOf('timeout') != -1) {
+      Message.error('请求超时')
+    } else {
+      Message.error(err.message)
+    }
+
   }
   return Promise.reject(err)
 })
