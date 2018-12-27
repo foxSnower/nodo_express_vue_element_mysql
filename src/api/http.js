@@ -119,6 +119,7 @@ http.interceptors.response.use(res => {
       return res.data
     } else {
       Message.error(res.data.msg);
+      return Promise.reject(res.data.err_code)
     }
   } else {
     return res.data

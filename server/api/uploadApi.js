@@ -2,7 +2,7 @@ var is = require('is-js');
 var express = require('express');
 var router = express.Router();
 var $sql = require('../db/sqlMap');
-var _ = require('../utils/utils');
+var Fuc = require('../utils');
 
 //是nodejs中处理multipart/form-data数据格式(主要用在上传功能中)的中间件
 //文档：https://github.com/expressjs/multer/blob/master/doc/README-zh-cn.md
@@ -25,10 +25,11 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 // 编辑接口
 router.post('/', upload.single('fileList'), (req, res) => {
+  var _ = new Fuc(res);
   //图片已经被放入到服务器里,且req也已经被upload中间件给处理好了（加上了file等信息）
   //线上的也就是服务器中的图片的绝对地址
   var url = '/static/upload/' + req.file.filename
-  _.isSuccess(res, url);
+  _.success(url);
 });
 
 

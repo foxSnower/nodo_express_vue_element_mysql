@@ -6,7 +6,7 @@ var dns = require('dns');
 var crypto = require('crypto');
 var querystring = require('querystring');
 var $sql = require('../db/sqlMap');
-var _ = require('../utils/utils');
+var Fuc = require('../utils');
 
 
 //获取url请求客户端ip
@@ -24,6 +24,7 @@ var get_client_ip = function (req) {
 
 //用IP地址搜索城市--获取当前用户IP
 router.post('/searchCity', (req, res) => {
+  var _ = new Fuc(res);
   var params = req.body;
   params.language = 'zh-Hans';
   params.key = 'fvfnflrb5vji9ga6';
@@ -47,22 +48,19 @@ router.post('/searchCity', (req, res) => {
       qs: params,
       json: true
     }).then(function (result) {
-      _.isSuccess(res, result.results[0]);
+      _.success(result.results[0]);
     }).catch(function (err) {
-      _.isSuccess(res, err, '请求失败');
+      _.success(err, '请求失败');
     });
-    }).catch(function (err) {
-    console.log(err);
-    
-    _.isSuccess(res, err, '请求失败');
+  }).catch(function (err) {
+    _.success(err, '请求失败');
   });
 
 })
 
-
-
 // 查询心知天气3天预报
 router.post('/getDailyWeather', (req, res) => {
+  var _ = new Fuc(res);
   var params = req.body;
   params.language = 'zh-Hans';
   params.key = 'fvfnflrb5vji9ga6';
@@ -81,15 +79,16 @@ router.post('/getDailyWeather', (req, res) => {
     qs: params,
     json: true
   }).then(function (result) {
-    _.isSuccess(res, result.results[0]);
+    _.success(result.results[0]);
   }).catch(function (err) {
-    _.isSuccess(res, err, '请求失败');
+    _.success(err, '请求失败');
   });
 })
 
 
 // 查询心知天气实况
 router.post('/getWeather', (req, res) => {
+  var _ = new Fuc(res);
   var params = req.body;
   params.language = 'zh-Hans';
   params.key = 'fvfnflrb5vji9ga6';
@@ -108,9 +107,9 @@ router.post('/getWeather', (req, res) => {
     qs: params,
     json: true
   }).then(function (result) {
-    _.isSuccess(res, result.results[0]);
+    _.success(result.results[0]);
   }).catch(function (err) {
-    _.isSuccess(res, err, '请求失败');
+    _.success(err, '请求失败');
   });
 })
 

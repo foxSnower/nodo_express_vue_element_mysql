@@ -7,14 +7,14 @@
           <span class="time">{{item.creat_time|filterTime}}</span>
         </div>
       </div>
-      <el-button type="primary" class="btn-menu" :class="{'btn-add':showBtn}" icon="el-icon-plus" circle title="新建文档" @click="addMd"></el-button>
-      <el-button type="primary" class="btn-menu" :class="{'btn-con-menu':showBtn}" icon="el-icon-view" circle title="隐藏列表" @click="showMenu=!showMenu"></el-button>
+      <el-button type="primary" class="btn-menu" :class="{'btn-add':showBtn}" icon="el-icon-plus" circle title="新建文档" @click="addMd();showBtn=false"></el-button>
+      <el-button type="primary" class="btn-menu" :class="{'btn-con-menu':showBtn}" icon="el-icon-view" circle title="隐藏列表" @click="showMenu=!showMenu;showBtn=false"></el-button>
       <el-button type="primary" class="btn-menu btn-set" icon="el-icon-setting" circle title="设置" @click="showBtn=!showBtn"></el-button>
     </div>
     <mavon-editor ref=md class="mavon" :ishljs="true" @imgAdd="imgAdd" v-model="curMark.markdown_value" @save="handleSave()" />
     <!--Right Click Menu-->
     <el-card class="box-card" :style="{left:conMenuPos.left,top:conMenuPos.top}" v-if="showRightClick">
-      <div slot="header" class="clearfix" @click="addMd">
+      <div slot="header" class="clearfix" @click="addMd()">
         <el-button type="text" icon="el-icon-circle-plus-outline">新建文档</el-button>
       </div>
       <div class="text" @click="resetMd(params)">
@@ -134,24 +134,16 @@ export default {
           markdown_id: params.markdown_id
         })
         .then(res => {
-          let getMarkdowList = this.getMarkdowList;
-          let delIndex = null;
-          getMarkdowList.forEach((x, index) => {
-            if (x.markdown_id == params.markdown_id) {
-              delIndex = index;
-            }
-          });
-          getMarkdowList.splice(delIndex, 1);
-          if (this.getMarkdowList.length) {
-            this.curMark = Object.assign({}, this.getMarkdowList[0]);
-          }
+          this.$message.success('删除成功');
+          this.getMarkdow();
         });
     },
     //点击菜单
     selectList(item) {
       let curMark = this.curMark;
+      //点击为当前md,返回
+      if (curMark.markdown_id == item.markdown_id) return false;
       let getMarkdowList = this.getMarkdowList;
-
       let modifyContent = null;
       try {
         getMarkdowList.forEach((x, index) => {
@@ -161,8 +153,7 @@ export default {
           }
         });
       } catch (error) {}
-
-      if (modifyContent.markdown_value != curMark.markdown_value) {
+      if (curMark.markdown_value != null && modifyContent.markdown_value != curMark.markdown_value) {
         this.$confirm('检测到未保存的内容，是否在离开页面前保存修改？', '确认信息', {
           distinguishCancelAndClose: true,
           confirmButtonText: '保存',
@@ -198,7 +189,6 @@ export default {
       let param = this.curMark;
       this.$api.editMarkdown(param).then(res => {
         this.$message.success('保存成功');
-
         this.getMarkdow();
         if (fn) {
           fn();
