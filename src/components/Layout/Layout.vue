@@ -1,7 +1,8 @@
 <template>
-  <!-- <el-main> -->
+  <el-main>
     <HAside></HAside>
-  <!-- </el-main> -->
+    <router-view />
+  </el-main>
 </template>
 
 <script>
@@ -11,17 +12,6 @@ export default {
       backTop: false,
       asideWidth: '200px',
       isCollapse: false,
-      menuList: [
-        {
-          title: '111',
-          childern: [
-            {
-              title: '231',
-              url: '/12'
-            }
-          ]
-        }
-      ]
     };
   },
   mounted() {
@@ -66,4 +56,13 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.el-main {
+  height: calc(100vh - 60px);
+  padding: 0;
+  display: flex;
+}
+</style>
+
 

@@ -62,3 +62,5 @@ const utils = {
   }
 }
 Vue.prototype.$U = utils;
+
+export default utils

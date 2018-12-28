@@ -1,9 +1,9 @@
 <template>
-  <el-header :style="'background:linear-gradient('+ theme.lightColor +', '+ theme.deepColor+')'">
+  <el-header :style="'background:'+ themeColor">
     <div class="header">
       <img class="logo" src="@assets/logo3.png">
       <Weather class="weather"></Weather>
-      <ThemePicker class="theme-pick"></ThemePicker>
+      <ThemePicker class="theme-pick" :themeColor.sync="themeColor"></ThemePicker>
     </div>
   </el-header>
 </template>
@@ -13,14 +13,24 @@ import ThemePicker from '@components/theme-picker';
 import Weather from '@components/Weather';
 export default {
   name: 'HHeader',
+  data(){
+    return {
+      themeColor:'#81b0f1'
+    }
+  },
+  mounted(){
+    this.$U.setLocalStorage('theme',this.$U.getLocalStorage('theme'));
+    this.$store.commit('theme',this.$U.getLocalStorage('theme'));
+  },
+  watch:{
+    themeColor:function(val){
+      this.$U.setLocalStorage('theme',val);
+      this.$store.commit('theme',val);
+    }
+  },
   components: {
     ThemePicker,
     Weather
-  },
-  computed: {
-    theme() {
-      return this.$U.theme(this.$theme);
-    }
   }
 };
 </script>

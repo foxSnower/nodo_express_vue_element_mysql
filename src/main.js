@@ -5,15 +5,21 @@ import App from './App'
 import router from './router'
 
 import ElementUI from 'element-ui'
-import is from "is-js";
 import 'element-ui/lib/theme-chalk/index.css'
-// import '@/style/theme/element-81B0F1/index.css'
+
+import 'font-awesome/css/font-awesome.min.css'
+
+import store from './store'
+import is from "is-js";
+
 import '@/style/fonts/iconfont.css'
 import '@/style/index.scss'
 import G_ from './api/global.js'
 import U_ from './utils'
 // import filters from './utils/filters.js'
 import api from './api/api.js'
+
+
 
 Vue.config.productionTip = false
 // Vue.use(ElementUI)
@@ -24,6 +30,7 @@ Vue.prototype.$is = is;
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
     App
   },

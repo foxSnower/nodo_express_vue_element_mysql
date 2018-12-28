@@ -22,7 +22,7 @@
 // import { version } from 'main/index.js';
 import Vue from 'vue';
 const ORIGINAL_THEME = '#409EFF';
-Vue.prototype.$theme = '#409EFF';
+
 export default {
   data() {
     return {
@@ -31,7 +31,7 @@ export default {
       theme: ORIGINAL_THEME
     };
   },
-
+  props:['themeColor'],
   watch: {
     theme(val, oldVal) {
       if (typeof val !== 'string') return;
@@ -79,7 +79,7 @@ export default {
         if (typeof innerText !== 'string') return;
         style.innerText = this.updateStyle(innerText, originalCluster, themeCluster);
       });
-      Vue.prototype.$theme = val;
+      this.$emit('update:themeColor',val) 
     }
   },
 

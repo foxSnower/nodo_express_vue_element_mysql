@@ -13,7 +13,10 @@ export default new Router({
         { path: '/Animation', meta: { title: 'CSS3 Animation' }, name: 'Animation', component: () => import('@views/Animation/Animation.vue') },
         { path: '/Markdown', meta: { title: 'Markdown' }, name: 'Markdown', component: () => import('@views/Markdown/Markdown.vue') },
         { path: '/SuDu', meta: { title: 'SuDu' }, name: 'SuDu', component: () => import('@views/SuDu/SuDu.vue') },
-        { path: '/Layout', meta: { title: 'Layout' }, name: 'Layout', component: () => import('@views/System/Layout.vue') },
+        { path: '/Index', redirect: 'Welcome', meta: { title: 'Index' }, name: 'Index', component: () => import('@views/System/Index.vue'), children: [
+          { path: '/Welcome', meta: { title: 'Welcome' }, name: 'Welcome', component: () => import('@views/System/Welcome.vue') },
+          { path: '/SetGoods', meta: { title: 'SetGoods' }, name: 'SetGoods', component: () => import('@views/System/Goods/SetGoods.vue') },
+        ] },
       ]
     },
     { path: '/AnimationForCss3', meta: { title: 'AnimationForCss3' }, name: 'AnimationForCss3', component: () => import('@views/Animation/AnimationForCss3.vue') },
