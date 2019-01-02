@@ -53,6 +53,22 @@ Fuc.prototype.sqlQuery = function (sql, params, fn) {
     if (result) fn(result);
   })
 }
+
+Fuc.prototype.filterTime = function (time) {
+  res = this.res;
+  var dateee = new Date(time).toJSON();
+  var date = new Date(+new Date(dateee) + 8 * 3600 * 1000).toISOString().replace(/T/g, ' ').replace(/\.[\d]{3}Z/, '')
+  return date
+}
+
+Fuc.prototype.filterDataOfTime = function (data) {
+  let _vm = this;
+  data.forEach(x => {
+    x.create_time = _vm.filterTime(x.create_time);
+    x.modify_time = _vm.filterTime(x.modify_time);
+  })
+  return data
+}
 module.exports = Fuc;
 
 // module.exports = {

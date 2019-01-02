@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   routes: [
     { path: '/HelloWorld', name: 'HelloWorld', component: HelloWorld },
     { path: '/Login', meta: { title: '欢迎页' }, name: 'Login', component: () => import('@views/Login.vue') },
@@ -16,6 +16,8 @@ export default new Router({
         { path: '/Index', redirect: 'Welcome', meta: { title: 'Index' }, name: 'Index', component: () => import('@views/System/Index.vue'), children: [
           { path: '/Welcome', meta: { title: 'Welcome' }, name: 'Welcome', component: () => import('@views/System/Welcome.vue') },
           { path: '/SetGoods', meta: { title: 'SetGoods' }, name: 'SetGoods', component: () => import('@views/System/Goods/SetGoods.vue') },
+          { path: '/UsersList', meta: { title: 'UsersList' }, name: 'UsersList', component: () => import('@views/System/Users/UsersList.vue') },
+          ...generateRoutesFromMenu()
         ] },
       ]
     },
@@ -23,3 +25,28 @@ export default new Router({
 
   ]
 })
+
+function generateRoutesFromMenu(menuList = [], routes = []) {
+  if(menuList){
+    function forMenuList(menus) {
+      menus.forEach(x => {
+        if (x.children.length === 0) {
+           let urlArray = x.url.split('/');
+           let name = urlArray[urlArray.length-1];
+           routes.push({
+             path:'/'+ x.url,
+             name:name,
+             meta: { title: x.title },
+             component: () => import('@/views/' + x.url + '.vue') //将组件用require引进来
+           })
+        } else {
+          forMenuList(x.children)
+        }
+      });
+    }
+    forMenuList(menuList);
+  }
+  return routes
+}
+
+export default router

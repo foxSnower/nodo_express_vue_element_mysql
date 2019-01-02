@@ -10,7 +10,9 @@ router.post('/editMarkdown', (req, res) => {
   var s_add = $sql.markdown.add;
   var s_modify = $sql.markdown.modify;
   var params = req.body;
-  if (!_.require(params.markdown_title)) return false
+  //判断必填
+  var requireParams = { markdown_title: params.markdown_title };
+  if (!_.require(requireParams)) return false
   if (is.empty(params.markdown_id)) {
     if (!params.markdown_value) {
       params.markdown_value = '';
@@ -31,7 +33,9 @@ router.post('/delMarkdown', (req, res) => {
   var _ = new Fuc(res);
   var s_delete = $sql.markdown.delete;
   var params = req.body;
-  if (!_.require(params.markdown_id)) return false
+  //判断必填
+  var requireParams = { markdown_id: params.markdown_id };
+  if (!_.require(requireParams)) return false
   _.sqlQuery(s_delete, [params.markdown_id], (result) => {
     _.success(null);
   })

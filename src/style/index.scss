@@ -25,15 +25,23 @@ body {
   color:red;
 }
 
-.el-form .el-form-item {
-  padding-right: 30px;
-}
+.el-form{
+  overflow: hidden;
+  margin-right: 50px;
+} 
 
+.el-table,
 .el-select,
 .el-date-editor--date {
   width: 100%;
 }
-
+.el-row{
+  margin: 10px 10px 10px 0;
+}
+.el-menu--collapse .el-submenu__icon-arrow,
+.el-menu--collapse .el-submenu__title>span{
+  display: none;
+}
 /**
 * 自适应设计
 */

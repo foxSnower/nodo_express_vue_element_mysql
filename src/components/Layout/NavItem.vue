@@ -29,5 +29,12 @@ export default {
 .menu {
   padding-left: 8px;
 }
+/deep/ {
+  .el-submenu__title,
+  .el-submenu .el-menu-item {
+    height: 40px;
+    line-height: 40px;
+  }
+}
 </style>
 

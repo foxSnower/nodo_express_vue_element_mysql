@@ -16,6 +16,7 @@ import '@/style/fonts/iconfont.css'
 import '@/style/index.scss'
 import G_ from './api/global.js'
 import U_ from './utils'
+import F_ from './utils/filters.js'
 // import filters from './utils/filters.js'
 import api from './api/api.js'
 

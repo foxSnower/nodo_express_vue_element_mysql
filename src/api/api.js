@@ -30,7 +30,7 @@ const comAPI = (method, url, params) => {
 
 const api = {
   //登陆
-  addUser(params) { return comAPI('post', system + '/user/addUser', params) },
+  
   addTest(params) { return comAPI('post', system + '/test/addTest', params) },
   //animate
   getAnimate(params) { return comAPI('post', system + '/animate/getAnimate', params) },
@@ -48,6 +48,10 @@ const api = {
   editMarkdown(params) { return comAPI('post', system + '/markdown/editMarkdown', params) },
   delMarkdown(params) { return comAPI('post', system + '/markdown/delMarkdown', params) },
   uploadFile(params) { return comAPI('upload', system + '/upload', params) },
+  //system
+  getShop(params) { return comAPI('post', system + '/shop/getShop', params) },
+  editShop(params) { return comAPI('post', system + '/shop/editShop', params) },
+  delShop(params) { return comAPI('post', system + '/shop/delShop', params) },
 }
 
 Vue.prototype.$http = http;

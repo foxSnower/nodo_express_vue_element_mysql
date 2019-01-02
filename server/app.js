@@ -1,5 +1,5 @@
 // node 后端服务器入口
-// const userApi = require('./api/userApi');
+const shopApi = require('./api/shopApi');
 // const testApi = require('./api/testApi');
 // const animateApi = require('./api/animateApi');
 const weatherApi = require('./api/weatherApi');
@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 //注册api路由
-// app.use('/api/user', userApi);
+app.use('/api/shop', shopApi);
 // app.use('/api/test', testApi);
 // app.use('/api/animate', animateApi);
 app.use('/api/weather', weatherApi);

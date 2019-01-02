@@ -1,8 +1,11 @@
 // sql语句
 var sqlMap = {
-  // 用户
-  user: {
-    add: 'insert into account(user_id, user_name, user_password) values (0, ?, ?)'
+  // 商户
+  shop: {
+    add: 'insert into shops(shop_id, shop_name,goods_name,shop_address,shop_manager,shop_phone,shop_IDCard) values (0, ?,?,?,?,?,?)',
+    modify: 'update shops set shop_name=?,goods_name=?,shop_address=?,shop_manager=?,shop_phone=?,shop_IDCard=? where shop_id=?',
+    delete: 'delete from shops where shop_id=?',
+    select: 'select * from shops',
   },
   // test
   test: {
