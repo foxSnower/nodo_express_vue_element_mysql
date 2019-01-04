@@ -2,8 +2,8 @@
 var sqlMap = {
   // 商户
   shop: {
-    add: 'insert into shops(shop_id, shop_name,goods_name,shop_address,shop_manager,shop_phone,shop_IDCard) values (0, ?,?,?,?,?,?)',
-    modify: 'update shops set shop_name=?,goods_name=?,shop_address=?,shop_manager=?,shop_phone=?,shop_IDCard=? where shop_id=?',
+    add: 'insert into shops(shop_id, shop_name,goods_name,shop_address,shop_manager,shop_phone,shop_IDCard,user_name,password) values (0, ?,?,?,?,?,?,?,?)',
+    modify: 'update shops set shop_name=?,goods_name=?,shop_address=?,shop_manager=?,shop_phone=?,shop_IDCard=?,user_name=?,password=? where shop_id=?',
     delete: 'delete from shops where shop_id=?',
     select: 'select * from shops',
   },

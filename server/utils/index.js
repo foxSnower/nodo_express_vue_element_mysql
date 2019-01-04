@@ -53,6 +53,15 @@ Fuc.prototype.sqlQuery = function (sql, params, fn) {
     if (result) fn(result);
   })
 }
+Fuc.prototype.sqlCount = function (table, fn) {
+  res = this.res;
+  let _vm = this;
+  var cSql = "select count(0) as count from (" + table + ")";
+  conn.query(cSql, function (err, result) {
+    if (err) _vm.error(err.sqlMessage);
+    if (result) fn(result[0].count);
+  })
+}
 
 Fuc.prototype.filterTime = function (time) {
   res = this.res;

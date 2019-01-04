@@ -10,7 +10,7 @@
 }
 
 body {
-  font-size: 12px;
+  font-size: 14px;
   overflow-x: hidden;
   color:#333;
 }
@@ -22,7 +22,7 @@ body {
   margin-left: 5px;
 }
 .f-warn{
-  color:red;
+  color:#F56C6C;
 }
 
 .el-form{
@@ -47,6 +47,14 @@ body {
 */
 .f-flex{
   display: flex;
+}
+.f-clear{
+  overflow: hidden;
+  &:before,
+  &:after{
+   content:'';
+   clear: both;
+  }
 }
 .f-item1 {
   width: 100%;

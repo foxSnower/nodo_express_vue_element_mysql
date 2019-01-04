@@ -25,7 +25,7 @@ export default {
               icon: 'fa-list-ul',
               spread: true,
               title: '用户列表',
-              url: '/UsersList'
+              url: '/Users/UsersList'
             }
           ]
         }

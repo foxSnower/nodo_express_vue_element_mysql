@@ -5,7 +5,7 @@
     </el-row>
     <el-table border stripe :data="tableData" ref="myTable" v-loading="loading" highlight-current-row>
       <el-table-column fixed label="序号" align="center" type="index" width="55"></el-table-column>
-      <el-table-column fixed label="商店信息" min-width="150">
+      <el-table-column fixed label="商铺信息" min-width="150">
         <template slot-scope="scope">
           <div class="table-cont">
             <p>{{ scope.row.shop_name }}</p>
@@ -38,22 +38,26 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="200">
         <template slot-scope="scope">
-          <el-button size='mini' type='text'>
+          <el-button size='mini' type='text' @click="edit('edit',scope.row)">
             <i class="el-icon-edit"></i> 修改</el-button>
-          <el-button v-if="scope.row.shop_status!='3'"  size='mini' type='text'>
+          <el-button size='mini' type='text' @click="$router.push('/Users/UsersDetail/'+scope.row.shop_id)">
+            <i class="el-icon-document"></i> 详情</el-button>
+          <el-button v-if="scope.row.shop_status!='3'" size='mini' type='text' class="f-warn" @click="delShop(scope.row.shop_id)">
             <i class="el-icon-delete"></i> 删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <HPage :total="total" :currentPage.sync="currentPage" :pageSize.sync="pageSize" @getData="getData"></HPage>
     <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="800px">
-      <el-form :model="params" ref="form" label-width="120px" size="small">
-        <HInput class="f-item2" label="商店名称" v-model="params.shop_name"></HInput>
-        <HInput class="f-item2" label="主推商品 " v-model="params.goods_name"></HInput>
-        <HInput class="f-item2" label="商店地址" v-model="params.shop_address"></HInput>
-        <HInput class="f-item2" label="店长名称" v-model="params.shop_manager"></HInput>
-        <HInput class="f-item2" label="手机号码" v-model="params.shop_phone"></HInput>
-        <HInput class="f-item2" label="身份证号" v-model="params.shop_IDCard"></HInput>
+      <el-form :model="params" ref="form" :rules="rules" label-width="120px" size="small">
+        <HInput class="f-item2" prop="shop_name" label="商店名称" v-model="params.shop_name"></HInput>
+        <HInput class="f-item2" prop="goods_name" label="主推商品 " v-model="params.goods_name"></HInput>
+        <HInput class="f-item2" prop="shop_address" label="商店地址" v-model="params.shop_address"></HInput>
+        <HInput class="f-item2" prop="shop_manager" label="店长名称" v-model="params.shop_manager"></HInput>
+        <HInput class="f-item2" prop="shop_phone" label="手机号码" v-model="params.shop_phone"></HInput>
+        <HInput class="f-item2" prop="shop_IDCard" label="身份证号" v-model="params.shop_IDCard"></HInput>
+        <HInput class="f-item2" label="账号" v-model="params.user_name"></HInput>
+        <HInput class="f-item2" label="密码" v-model="params.password"></HInput>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -64,6 +68,7 @@
 </template>
 
 <script>
+import { UsersRules } from '@/utils/rules.js';
 export default {
   data() {
     return {
@@ -78,7 +83,8 @@ export default {
       dialogTitle: '',
       dialogDisabled: false,
       tableData: [],
-      params: {}
+      params: {},
+      rules: UsersRules
     };
   },
 
@@ -92,13 +98,22 @@ export default {
   },
   methods: {
     getData() {
-      this.$api.getShop({}).then(res => {
-        this.tableData = res.data;
-      });
+      this.$api
+        .getShop({
+          page: this.currentPage,
+          limit: this.pageSize
+        })
+        .then(res => {
+          this.total = res.data.count;
+          this.tableData = res.data.data;
+        });
     },
     //编辑
     edit(type, row) {
       this.dialogVisible = true;
+      try {
+        this.$refs.form.clearValidate();
+      } catch (error) {}
       if (type === 'add') {
         this.dialogTitle = '新增用户';
         this.dialogDisabled = false;
@@ -107,33 +122,43 @@ export default {
         }
       }
       if (type === 'edit') {
-        this.dialogTitle = '编辑用户';
+        this.dialogTitle = '修改用户';
         this.dialogDisabled = true;
         this.params = Object.assign({}, row);
       }
     },
-    //编辑
-    editShop(params, callback) {
-      this.$api.editShop(params).then(res => {
-        return callback(res);
-      });
-    },
     //删除
-    delShop(params, callback) {
-      this.$api.delShop({ shop_id: params.shop_id }).then(res => {
-        return callback(res);
+    delShop(shop_id) {
+      this.$confirm('删除后,将失去此信息,是否继续？', '确认信息', {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '是',
+        cancelButtonText: '否',
+        callback: action => {
+          if (action === 'confirm') {
+            this.$api.delShop({ shop_id: shop_id }).then(res => {
+              this.$message.success(res.msg);
+              this.getData();
+            });
+          }
+        }
       });
     },
     //保存
     save() {
-      let params = this.params;
-      if (!params.shop_id) {
-        params.shop_id = null;
-      }
-      this.editShop(params, res => {
-        this.$message.success(res.msg);
-        this.dialogVisible = false;
-        this.getData();
+      this.$refs.form.validate(valid => {
+        if (valid) {
+          let params = this.params;
+          if (!params.shop_id) {
+            params.shop_id = null;
+          }
+          this.$api.editShop(params).then(res => {
+            this.$message.success(res.msg);
+            this.dialogVisible = false;
+            this.getData();
+          });
+        } else {
+          return false;
+        }
       });
     }
   }

@@ -16,7 +16,8 @@ const router = new Router({
         { path: '/Index', redirect: 'Welcome', meta: { title: 'Index' }, name: 'Index', component: () => import('@views/System/Index.vue'), children: [
           { path: '/Welcome', meta: { title: 'Welcome' }, name: 'Welcome', component: () => import('@views/System/Welcome.vue') },
           { path: '/SetGoods', meta: { title: 'SetGoods' }, name: 'SetGoods', component: () => import('@views/System/Goods/SetGoods.vue') },
-          { path: '/UsersList', meta: { title: 'UsersList' }, name: 'UsersList', component: () => import('@views/System/Users/UsersList.vue') },
+          { path: '/Users/UsersList', meta: { title: 'UsersList' }, name: 'UsersList', component: () => import('@views/System/Users/UsersList.vue') },
+          { path: '/Users/UsersDetail/:shop_id', meta: { title: 'UsersDetail' }, name: 'UsersDetail', component: () => import('@views/System/Users/UsersDetail.vue') },
           ...generateRoutesFromMenu()
         ] },
       ]

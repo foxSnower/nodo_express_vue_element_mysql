@@ -16,6 +16,7 @@ Vue.filter('shop_status', function (val) {
       return '已废弃';
       break;
     default:
+      return '已废弃';
       break;
   }
 });
