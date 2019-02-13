@@ -4,7 +4,7 @@
     <div class="cont">
       <div class="f-clear">
         <div class="f-item">
-          <p>商铺名称：<i>{{myData.shop_name}}111</i></p>
+          <p>商铺名称：<i>{{myData.shop_name}}</i></p>
         </div>
         <div class="f-item">
           <p>主推商品：<i>{{myData.goods_name}}</i></p>
@@ -38,6 +38,21 @@
         <el-table-column prop="mark" label="备注"></el-table-column>
       </el-table>
     </div>
+    <div class="title">商品信息列表</div>
+    <div class="cont">
+      <el-row style="margin-bottom:20px">
+        <el-tag type="primary">上架商品总量：0</el-tag>
+      </el-row>
+      <el-table :data="tableData" border style="width: 100%">
+        <el-table-column prop="date" label="商品编号" width="180"></el-table-column>
+        <el-table-column prop="name" label="商品名称" width="180"></el-table-column>
+        <el-table-column prop="name" label="库存" width="180"></el-table-column>
+        <el-table-column prop="name" label="价格" width="180"></el-table-column>
+        <el-table-column prop="name" label="已售出数量" width="180"></el-table-column>
+        <el-table-column prop="name" label="参与的活动" width="180"></el-table-column>
+      </el-table>
+      <HPage :total="total" :currentPage.sync="currentPage" :pageSize.sync="pageSize" @getData="getData"></HPage>
+    </div>
     <div class="title">出单记录</div>
     <div class="cont">
       <el-row style="margin-bottom:20px">
@@ -58,8 +73,8 @@
         <el-tag type="primary">可提现：0</el-tag>
         <el-tag type="primary">已提现：0</el-tag>
         <el-popover placement="top-start" title="手续费  0.1%" width="250" trigger="hover">
-          <p solt="content">提现费用 = 提现金额 * 手续费；</p>
-          <p solt="content">提现费用 <=1000 元； 手续费=1 元；</p> <p solt="content">手续费至多 20 元；</p>
+          <p solt="content">提现费用 = 提现金额 * 手续费</p>
+          <p solt="content">提现费用 <=1000 元，手续费=1 元</p> <p solt="content">手续费至多 20 元</p>
           <el-tag type="primary" slot="reference">提现费用：0</el-tag>
         </el-popover>
       </el-row>
@@ -82,6 +97,9 @@ export default {
   },
   mounted() {
     this.getData();
+  },
+  components: {
+    HPage: () => import('@components/HPage')
   },
   methods: {
     getData() {

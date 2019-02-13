@@ -2,7 +2,7 @@
   <el-aside :width="isCollapse?'50px':'200px'">
     <el-button class="menu-btn" :class="{rotate:isCollapse}" size="medium" type="primary" icon="fa fa-bars" circle @click="isCollapse=!isCollapse"></el-button>
     <el-menu router default-active="onRoutes" active-text-color="theme" :collapse="isCollapse">
-      <NavItem :navList="navList"></NavItem>
+      <NavBar></NavBar>
     </el-menu>
   </el-aside>
 </template>
@@ -14,26 +14,10 @@ export default {
     return {
       asideWidth: '200px',
       isCollapse: false,
-      navList: [
-        {
-          id: '1',
-          icon: 'fa-database',
-          title: '用户管理',
-          children: [
-            {
-              id: '01',
-              icon: 'fa-list-ul',
-              spread: true,
-              title: '用户列表',
-              url: '/Users/UsersList'
-            }
-          ]
-        }
-      ]
-    };
+    }
   },
   components: {
-    NavItem: () => import('./NavItem')
+    NavBar: () => import('./NavBar')
   },
   computed: {
     theme() {

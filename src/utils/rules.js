@@ -26,7 +26,7 @@ export const UsersRules = {
     required: true,
     name: '店长姓名',
     validator: validator.normal,
-    trigger: ['blur', 'change']
+    trigger: ['blur']
   }],
   shop_phone: [{
     required: true,
@@ -38,6 +38,18 @@ export const UsersRules = {
     required: true,
     name: '店长身份证',
     validator: validator.identity,
+    trigger: ['blur']
+  }],
+  user_name: [{
+    required: true,
+    name: '账号',
+    validator: validator.normal,
+    trigger: ['blur']
+  }],
+  password: [{
+    required: true,
+    name: '密码',
+    validator: validator.normal,
     trigger: ['blur']
   }],
 }

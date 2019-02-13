@@ -7,9 +7,10 @@ var sqlMap = {
     delete: 'delete from shops where shop_id=?',
     select: 'select * from shops',
   },
-  // test
-  test: {
-    add: 'insert into goods(id, name, price) values (0, ?, ?)'
+  // 登录
+  login: {
+    select: 'select * from account where user_name = ? and user_password = ?',
+    modifyToken: 'update account set token=? where account_id=?',
   },
   animate: {
     add: 'insert into animate_css(effect_id, effect_name) values (0, ?)',

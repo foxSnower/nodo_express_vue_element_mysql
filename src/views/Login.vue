@@ -8,13 +8,13 @@
       <div class="login_rt">
         <el-form ref="form" label-width="100px" size="medium">
           <el-form-item label="账号">
-            <el-input v-model="user_name" maxLength="20"></el-input>
+            <el-input v-model.trim="user_name" maxLength="20"></el-input>
           </el-form-item>
           <el-form-item label="密码">
-            <el-input v-model="user_password" maxLength="20"></el-input>
+            <el-input v-model.trim="user_password" maxLength="20"></el-input>
           </el-form-item>
           <el-form-item style="text-align:right">
-            <el-button width="180px" type="primary" @click="addUser">登 录</el-button>
+            <el-button width="180px" type="primary" @click="login">登 录</el-button>
             <!-- <el-button width="180px" type="primary" @click="$router.push('/AnimationForCss3')">CSS 3</el-button> -->
             <el-button width="180px" type="primary" @click="goRegister">注册</el-button>
           </el-form-item>
@@ -49,23 +49,18 @@ export default {
     // };
   },
   methods: {
-    addUser() {
-      this.$api
-        .addUser({
-          user_name: this.user_name,
-          user_password: this.user_password
-        })
-        .then(res => {
-          console.log(res);
-        });
-      //  this.$api
-      //   .addTest({
-      //     name: this.user_name,
-      //     price: this.user_password
-      //   })
-      //   .then(res => {
-      //     console.log(res);
-      //   });
+    login() {
+      if (!this.user_name) {
+        this.$message.error('账号不能为空');
+        return;
+      }
+      if (!this.user_password) {
+        this.$message.error('密码不能为空');
+        return;
+      }
+      this.$api.login({ user_name: this.user_name, user_password: this.user_password }).then(res => {
+        this.$message.success(res.msg);
+      });
     }
   }
 };

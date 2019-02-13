@@ -1,13 +1,12 @@
 <template>
   <el-header :style="'background:'+ themeColor">
     <div class="header">
-      <img class="logo" src="@assets/logo3.png">
+      <!-- <img class="logo" src="@assets/logo3.png"> -->
       <Weather class="weather"></Weather>
       <ThemePicker class="theme-pick" :themeColor.sync="themeColor"></ThemePicker>
     </div>
   </el-header>
-</template>
-
+</template>                                                                                                                                                                                                                                                                     
 <script>
 import ThemePicker from '@components/theme-picker';
 import Weather from '@components/Weather';

@@ -1,5 +1,5 @@
 <template>
-  <div class='h-page'>
+  <div class='h-page' v-if="total!=null">
     <el-pagination background @current-change='handleCurrentChange' @size-change="handleSizeChange" :current-page='currentPage' :page-size="pageSize" :page-sizes="[5 ,10, 20, 30, 40]" :total='total' layout='total, sizes, prev, pager, next, jumper'>
     </el-pagination>
   </div>

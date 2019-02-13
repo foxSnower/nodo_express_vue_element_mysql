@@ -56,8 +56,8 @@
         <HInput class="f-item2" prop="shop_manager" label="店长名称" v-model="params.shop_manager"></HInput>
         <HInput class="f-item2" prop="shop_phone" label="手机号码" v-model="params.shop_phone"></HInput>
         <HInput class="f-item2" prop="shop_IDCard" label="身份证号" v-model="params.shop_IDCard"></HInput>
-        <HInput class="f-item2" label="账号" v-model="params.user_name"></HInput>
-        <HInput class="f-item2" label="密码" v-model="params.password"></HInput>
+        <HInput class="f-item2" prop="user_name" label="账号" v-model="params.user_name" disabled></HInput>
+        <HInput class="f-item2" prop="password" label="密码" v-model="params.password"></HInput>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -81,17 +81,20 @@ export default {
       total: 0,
       dialogVisible: false,
       dialogTitle: '',
-      dialogDisabled: false,
       tableData: [],
       params: {},
       rules: UsersRules
     };
   },
-
   components: {
     HInput: () => import('@components/HInput'),
     HSelect: () => import('@components/HSelect'),
     HPage: () => import('@components/HPage')
+  },
+  watch:{
+    'params.shop_phone':function(curVal){
+       this.$set(this.params,'user_name',curVal)
+    }
   },
   mounted() {
     this.getData();
@@ -116,14 +119,12 @@ export default {
       } catch (error) {}
       if (type === 'add') {
         this.dialogTitle = '新增用户';
-        this.dialogDisabled = false;
         for (let i in this.params) {
           this.params[i] = null;
         }
       }
       if (type === 'edit') {
         this.dialogTitle = '修改用户';
-        this.dialogDisabled = true;
         this.params = Object.assign({}, row);
       }
     },
