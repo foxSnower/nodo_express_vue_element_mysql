@@ -1,10 +1,11 @@
 import Vue from 'vue'
+import axios from 'axios'
 import http from './http.js'
 
-const system = Vue.prototype.$GLOBAL.BASE_URL + '/api';
-const local = './static'
+const system = '';
 
 const comAPI = (method, url, params) => {
+  if (!params) { params = {} };
   switch (method) {
     case 'post':
       return http.post(url, params).then(res => {
@@ -22,6 +23,14 @@ const comAPI = (method, url, params) => {
         return res
       })
       break;
+    case 'local':
+      let loacalHttp = axios.create({
+        baseURL: './static',
+      })
+      return loacalHttp.get(url, { params }).then(res => {
+        return res.data
+      })
+      break;
     default:
       break;
   }
@@ -31,12 +40,13 @@ const comAPI = (method, url, params) => {
 const api = {
   //登陆
   login(params) { return comAPI('post', system + '/login', params) },
+  getToken(params) { return comAPI('post', system + '/getToken', params) },
   addTest(params) { return comAPI('post', system + '/test/addTest', params) },
   //animate
   getAnimate(params) { return comAPI('post', system + '/animate/getAnimate', params) },
   getAnimateType(params) { return comAPI('post', system + '/animate/getAnimateType', params) },
-  getAnimateAll(params) { return comAPI('get', local + '/animation.json', params) },
-  getAnimateJson(params) { return comAPI('get', local + '/animate.json', params) },
+  getAnimateAll(params) { return comAPI('local', '/animation.json', params) },
+  getAnimateJson(params) { return comAPI('local', '/animate.json', params) },
   editAnimate(params) { return comAPI('post', system + '/animate/editAnimate', params) },
   deleteAnimate(params) { return comAPI('post', system + '/animate/deleteAnimate', params) },
   //获取天气

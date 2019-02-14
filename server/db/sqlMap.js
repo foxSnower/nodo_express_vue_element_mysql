@@ -10,7 +10,9 @@ var sqlMap = {
   // 登录
   login: {
     select: 'select * from account where user_name = ? and user_password = ?',
+    modifyTokens: 'update account set token=?,refresh_token=? where account_id=?',
     modifyToken: 'update account set token=? where account_id=?',
+    modifyRefreshToken: 'update account set refresh_token=? where account_id=?',
   },
   animate: {
     add: 'insert into animate_css(effect_id, effect_name) values (0, ?)',

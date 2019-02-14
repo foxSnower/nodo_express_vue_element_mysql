@@ -40,7 +40,7 @@
         <template slot-scope="scope">
           <el-button size='mini' type='text' @click="edit('edit',scope.row)">
             <i class="el-icon-edit"></i> 修改</el-button>
-          <el-button size='mini' type='text' @click="$router.push('/Users/UsersDetail/'+scope.row.shop_id)">
+          <el-button size='mini' type='text' @click="showDetail(scope.row)">
             <i class="el-icon-document"></i> 详情</el-button>
           <el-button v-if="scope.row.shop_status!='3'" size='mini' type='text' class="f-warn" @click="delShop(scope.row.shop_id)">
             <i class="el-icon-delete"></i> 删除</el-button>
@@ -48,22 +48,8 @@
       </el-table-column>
     </el-table>
     <HPage :total="total" :currentPage.sync="currentPage" :pageSize.sync="pageSize" @getData="getData"></HPage>
-    <el-dialog :title="dialogTitle" :visible.sync="dialogVisible" width="800px">
-      <el-form :model="params" ref="form" :rules="rules" label-width="120px" size="small">
-        <HInput class="f-item2" prop="shop_name" label="商店名称" v-model="params.shop_name"></HInput>
-        <HInput class="f-item2" prop="goods_name" label="主推商品 " v-model="params.goods_name"></HInput>
-        <HInput class="f-item2" prop="shop_address" label="商店地址" v-model="params.shop_address"></HInput>
-        <HInput class="f-item2" prop="shop_manager" label="店长名称" v-model="params.shop_manager"></HInput>
-        <HInput class="f-item2" prop="shop_phone" label="手机号码" v-model="params.shop_phone"></HInput>
-        <HInput class="f-item2" prop="shop_IDCard" label="身份证号" v-model="params.shop_IDCard"></HInput>
-        <HInput class="f-item2" prop="user_name" label="账号" v-model="params.user_name" disabled></HInput>
-        <HInput class="f-item2" prop="password" label="密码" v-model="params.password"></HInput>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="save">保存</el-button>
-      </span>
-    </el-dialog>
+    <UsersEdit ref="usersEdit" @getData="getData"></UsersEdit>
+    <UsersDetail ref="usersDetail" @getData="getData"></UsersDetail>
   </div>
 </template>
 
@@ -79,22 +65,13 @@ export default {
       pageSize: 10,
       // 分页总数
       total: 0,
-      dialogVisible: false,
-      dialogTitle: '',
-      tableData: [],
-      params: {},
-      rules: UsersRules
+      tableData: []
     };
   },
   components: {
-    HInput: () => import('@components/HInput'),
-    HSelect: () => import('@components/HSelect'),
-    HPage: () => import('@components/HPage')
-  },
-  watch:{
-    'params.shop_phone':function(curVal){
-       this.$set(this.params,'user_name',curVal)
-    }
+    HPage: () => import('@components/HPage'),
+    UsersEdit: () => import('./Components/UsersEdit'),
+    UsersDetail: () => import('./Components/UsersDetail'),
   },
   mounted() {
     this.getData();
@@ -113,20 +90,10 @@ export default {
     },
     //编辑
     edit(type, row) {
-      this.dialogVisible = true;
-      try {
-        this.$refs.form.clearValidate();
-      } catch (error) {}
-      if (type === 'add') {
-        this.dialogTitle = '新增用户';
-        for (let i in this.params) {
-          this.params[i] = null;
-        }
-      }
-      if (type === 'edit') {
-        this.dialogTitle = '修改用户';
-        this.params = Object.assign({}, row);
-      }
+      this.$refs.usersEdit.edit(type, row);
+    },
+    showDetail(row){
+      this.$refs.usersDetail.showDetail(row);
     },
     //删除
     delShop(shop_id) {
@@ -141,24 +108,6 @@ export default {
               this.getData();
             });
           }
-        }
-      });
-    },
-    //保存
-    save() {
-      this.$refs.form.validate(valid => {
-        if (valid) {
-          let params = this.params;
-          if (!params.shop_id) {
-            params.shop_id = null;
-          }
-          this.$api.editShop(params).then(res => {
-            this.$message.success(res.msg);
-            this.dialogVisible = false;
-            this.getData();
-          });
-        } else {
-          return false;
         }
       });
     }

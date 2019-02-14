@@ -6,18 +6,19 @@
         <img src="@assets/logo.png">
       </div>
       <div class="login_rt">
-        <el-form ref="form" label-width="100px" size="medium">
-          <el-form-item label="账号">
-            <el-input v-model.trim="user_name" maxLength="20"></el-input>
+        <el-form ref="loginForm" :model="loginForm" :rules="loginFormRule" label-width="100px" size="medium" hide-required-asterisk>
+          <el-form-item label="账户" prop="user_name" >
+            <el-input v-model.trim="loginForm.user_name" maxLength="20"></el-input>
           </el-form-item>
-          <el-form-item label="密码">
-            <el-input v-model.trim="user_password" maxLength="20"></el-input>
+          <el-form-item label="密码" prop="user_password">
+            <el-input v-model.trim="loginForm.user_password" maxLength="20"></el-input>
           </el-form-item>
           <el-form-item style="text-align:right">
             <el-button width="180px" type="primary" @click="login">登 录</el-button>
-            <!-- <el-button width="180px" type="primary" @click="$router.push('/AnimationForCss3')">CSS 3</el-button> -->
-            <el-button width="180px" type="primary" @click="goRegister">注册</el-button>
           </el-form-item>
+          <!-- <el-form-item style="text-align:right">
+            <el-button width="180px" type="primary" @click="ohther">11111111</el-button>
+          </el-form-item> -->
         </el-form>
       </div>
     </div>
@@ -31,8 +32,14 @@
 export default {
   data() {
     return {
-      user_name: null,
-      user_password: null
+      loginForm: {
+        user_name: null,
+        user_password: null
+      },
+      loginFormRule: {
+        user_name: [{ required: true, message: '账户不能为空', trigger: 'blur' }],
+        user_password: [{ required: true, message: '密码不能为空', trigger: 'blur' }]
+      }
     };
   },
   mounted() {
@@ -50,16 +57,21 @@ export default {
   },
   methods: {
     login() {
-      if (!this.user_name) {
-        this.$message.error('账号不能为空');
-        return;
-      }
-      if (!this.user_password) {
-        this.$message.error('密码不能为空');
-        return;
-      }
-      this.$api.login({ user_name: this.user_name, user_password: this.user_password }).then(res => {
-        this.$message.success(res.msg);
+      let loginForm = this.loginForm;
+      this.$refs['loginForm'].validate(valid => {
+        if (valid) {
+          this.$api
+            .login({
+              user_name: loginForm.user_name,
+              user_password: loginForm.user_password
+            })
+            .then(res => {
+              this.$cookie.set(this.$GLOBAL.TOKEN, res.data, { expires: this.$GLOBAL.TOKENTIME / 2 + 'm' });
+              this.$cookie.set(this.$GLOBAL.REFRESHTOKEN, res.data, { expires: this.$GLOBAL.TOKENTIME + 'm' });
+              this.$router.push('Index');
+              this.$message.success(res.msg);
+            });
+        }
       });
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-menu-item-group v-for="(item) in navList" :key="item.id">
+    <el-menu-item-group v-for="item in navList" :key="item.id">
       <template slot="title">{{item.title}}</template>
       <NavItem :navList="item.children"></NavItem>
     </el-menu-item-group>
@@ -27,7 +27,7 @@ export default {
               url: '/Users/UsersManagement'
             },
             {
-              id: '01',
+              id: '02',
               icon: 'fa-list-ul',
               spread: true,
               title: '促销活动管理',
@@ -36,7 +36,7 @@ export default {
           ]
         },
         {
-          id: '1',
+          id: '2',
           icon: 'fa-database',
           title: '辅助账户管理',
           children: [
@@ -50,7 +50,7 @@ export default {
           ]
         },
         {
-          id: '1',
+          id: '3',
           icon: 'fa-database',
           title: '用户管理',
           children: [
@@ -64,7 +64,7 @@ export default {
           ]
         },
         {
-          id: '2',
+          id: '4',
           icon: 'fa-database',
           title: '设置',
           children: [
