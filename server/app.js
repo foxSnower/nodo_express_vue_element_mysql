@@ -1,4 +1,5 @@
 // node 后端服务器入口
+const verifyToken = require('./api/verifyToken');
 const loginApi = require('./api/loginApi');
 const shopApi = require('./api/shopApi');
 // const testApi = require('./api/testApi');
@@ -14,7 +15,12 @@ const express = require('express');
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
+
+
+app.all('*', (req, res, next) => { 
+  return verifyToken(req, res, next)
+})
 
 //注册api路由
 app.use('/api', loginApi);
@@ -28,5 +34,5 @@ app.use('/api/upload', uploadApi);
 app.use(express.static('../dist'));
 
 // 监听端口
-app.listen(8000,'0.0.0.0');
+app.listen(8000, '0.0.0.0');
 console.log('success listen at port:8000......');

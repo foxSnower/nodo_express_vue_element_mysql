@@ -19,7 +19,7 @@ const http = axios.create({
 
 const cookieToken = Vue.prototype.$GLOBAL.TOKEN;
 const cookieRefreshToken = Vue.prototype.$GLOBAL.REFRESHTOKEN;
-
+const tokenTime = Vue.prototype.$GLOBAL.TOKENTIME;
 
 // /**
 //  * 清空 cookie
@@ -32,16 +32,16 @@ const clearToken = () => {
 /**
  * 获取 token
  */
-const getToken = () => {
+const getToken = async () => {
   // 从cookie中获取token
   let token = Vue.cookie.get(cookieToken);
   // 如果token失效，则重新获取
   if (!token) {
-    return http.get('/getToken').then(res => {
+    return await http.get('/getToken').then(res => {
       if (res.code == '0') {
         // 重置token
-        Vue.cookie.set(cookieToken, res.data, { expires: this.$GLOBAL.TOKENTIME / 2 + 'm' });
-        Vue.cookie.set(cookieRefreshToken, res.data, { expires: this.$GLOBAL.TOKENTIME + 'm' });
+        Vue.cookie.set(cookieToken, res.data, { expires: tokenTime / 2 + 'm' });
+        Vue.cookie.set(cookieRefreshToken, res.data, { expires: tokenTime + 'm' });
         return  res.data
       } else {
         // 清空cookie
@@ -57,9 +57,8 @@ const getToken = () => {
       router.push('/login')
       Message.error('token失效，请重新登录 !')
     })
-  } else {
-    return token
-  }
+  } 
+   return token
 }
 
 /**
@@ -84,7 +83,7 @@ http.interceptors.request.use(async request => {
     // 其余API的Authorization全部使用token
   } else {
     // var token = Vue.cookie.get(Vue.prototype.$GLOBAL.TOKEN);
-    var token = getToken();
+    var token = await getToken();
     request.headers['Authorization'] = token
     return request;
   }

@@ -73,7 +73,6 @@ router.post('/login', (req, res) => {
 router.get('/getToken', (req, res) => {
   var _ = new Fuc(res);
   var sql = $sql.account.selectForId;
-  var params = req.body;
   // 获得客户端的Cookie
   var Cookies = {};
   req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
@@ -94,9 +93,14 @@ router.get('/getToken', (req, res) => {
   //根据账户id获得当前用户refreshToken
   var curRefreshToken = (id, fn) => {
     return _.sqlQuery(sql, [id], async (result) => {
-      if (result.length) {
-        return fn(result)
+      if (fn) {
+        if (result.length) {
+          return fn(result)
+        }
+      } else {
+        return result
       }
+     
     })
   }
   getAccountId((id) => {
@@ -112,5 +116,7 @@ router.get('/getToken', (req, res) => {
     })
   })
 });
+
+
 
 module.exports = router;
