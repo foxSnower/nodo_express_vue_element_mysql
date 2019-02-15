@@ -42,6 +42,7 @@ const getToken = () => {
         // 重置token
         Vue.cookie.set(cookieToken, res.data, { expires: this.$GLOBAL.TOKENTIME / 2 + 'm' });
         Vue.cookie.set(cookieRefreshToken, res.data, { expires: this.$GLOBAL.TOKENTIME + 'm' });
+        return  res.data
       } else {
         // 清空cookie
         clearToken()
@@ -71,7 +72,6 @@ http.interceptors.request.use(async request => {
     // 如果是重新获取token，则Authorization需要设置为refreshToken
   } else if ('/getToken' === request.url) {
     let token = Vue.cookie.get(cookieRefreshToken);
-    console.log(token)
     if (!token) {
       clearToken();
       router.push('/login');

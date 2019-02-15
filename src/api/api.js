@@ -40,7 +40,7 @@ const comAPI = (method, url, params) => {
 const api = {
   //登陆
   login(params) { return comAPI('post', system + '/login', params) },
-  getToken(params) { return comAPI('post', system + '/getToken', params) },
+  getToken(params) { return comAPI('get', system + '/getToken', params) },
   addTest(params) { return comAPI('post', system + '/test/addTest', params) },
   //animate
   getAnimate(params) { return comAPI('post', system + '/animate/getAnimate', params) },

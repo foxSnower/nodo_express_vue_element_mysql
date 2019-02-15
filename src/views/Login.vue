@@ -7,7 +7,7 @@
       </div>
       <div class="login_rt">
         <el-form ref="loginForm" :model="loginForm" :rules="loginFormRule" label-width="100px" size="medium" hide-required-asterisk>
-          <el-form-item label="账户" prop="user_name" >
+          <el-form-item label="账户" prop="user_name">
             <el-input v-model.trim="loginForm.user_name" maxLength="20"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="user_password">
@@ -15,10 +15,8 @@
           </el-form-item>
           <el-form-item style="text-align:right">
             <el-button width="180px" type="primary" @click="login">登 录</el-button>
+            <el-button width="180px" type="primary" @click="getToken">测试token</el-button>
           </el-form-item>
-          <!-- <el-form-item style="text-align:right">
-            <el-button width="180px" type="primary" @click="ohther">11111111</el-button>
-          </el-form-item> -->
         </el-form>
       </div>
     </div>
@@ -73,6 +71,9 @@ export default {
             });
         }
       });
+    },
+    getToken() {
+      this.$api.getToken().then(res => {});
     }
   }
 };

@@ -18,7 +18,7 @@ const global_ = {
   REFRESHTOKEN:'FETRUEREFRESHTOKEN',
   SYSTEM_NAME: '进件管理系统',
   SYSTEM_SHORT_NAME: 'SIMS',
-  TOKENTIME:'120',
+  TOKENTIME:'3',
 }
 
 Vue.prototype.$GLOBAL = global_;

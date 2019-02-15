@@ -8,11 +8,14 @@ var sqlMap = {
     select: 'select * from shops',
   },
   // 登录
-  login: {
+  account: {
     select: 'select * from account where user_name = ? and user_password = ?',
+    selectForId: 'select * from account where account_id = ?',
     modifyTokens: 'update account set token=?,refresh_token=? where account_id=?',
     modifyToken: 'update account set token=? where account_id=?',
     modifyRefreshToken: 'update account set refresh_token=? where account_id=?',
+    addMainAccount:'insert into account(account_id, shop_id,user_name,user_password,is_main,mark) values (0, ?,?,?,?,?)',
+    modifyMainAccount:'update account set user_name=?,user_password=?  where shop_id = ? and is_main = 1',
   },
   animate: {
     add: 'insert into animate_css(effect_id, effect_name) values (0, ?)',
