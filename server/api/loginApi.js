@@ -31,7 +31,6 @@ const signToken = (_, id, result, callback) => {
   let content = { id: id };// 要生成token的主题信息
   let token = getToken(content, secretOrPrivateKey());
   let refresh_token = token;
-  console.log(token, refresh_token);
   _.sqlQuery(sql_modifyTokens, [token, refresh_token, result[0].account_id], () => {
     setTimeoutPromise(expiresTime).then(() => {
       // 在大约 expiresTime 毫秒后执行。
@@ -81,18 +80,25 @@ router.get('/getToken', (req, res) => {
   });
   //解析token
   var getAccountId = (fn) => {
-    return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
-      if (fn) {
-        return fn(decode.id)
-      } else {
-        return decode.id
-      }
-
-    })
+    if (!Cookies.FETRUEREFRESHTOKEN) {
+      return _.error(null, 'token失效');
+    } else {
+      return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
+        if (err) {
+          return fn(null)
+        } else {
+          if (fn) {
+            return fn(decode.id)
+          } else {
+            return decode.id
+          }
+        }
+      })
+    }
   }
   //根据账户id获得当前用户refreshToken
   var curRefreshToken = (id, fn) => {
-    return _.sqlQuery(sql, [id], async (result) => {
+    return _.sqlQuery(sql, [id], (result) => {
       if (fn) {
         if (result.length) {
           return fn(result)
@@ -100,7 +106,7 @@ router.get('/getToken', (req, res) => {
       } else {
         return result
       }
-     
+
     })
   }
   getAccountId((id) => {
@@ -117,6 +123,99 @@ router.get('/getToken', (req, res) => {
   })
 });
 
+// 获取用户权限菜单
+router.get('/getMenu', (req, res) => {
+  var _ = new Fuc(res);
+  var sql = $sql.account.selectForId;
+  // 获得客户端的Cookie
+  var Cookies = {};
+  req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
+    var parts = Cookie.split('=');
+    Cookies[parts[0].trim()] = (parts[1] || '').trim();
+  });
+  //解析token
+  var getAccountId = (fn) => {
+    if (!Cookies.FETRUEREFRESHTOKEN) {
+      return _.error(null, 'token失效');
+    } else {
+      return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
+        if (err) {
+          return fn(null)
+        } else {
+          if (fn) {
+            return fn(decode.id)
+          } else {
+            return decode.id
+          }
+        }
+      })
+    }
+  }
+  //根据账户id获得当前用户菜单权限
+  var curMenu = (id, fn) => {
+    return _.sqlQuery(sql, [id], async (result) => {
+      if (fn) {
+        if (result.length) {
+          return fn(result)
+        }
+      } else {
+        return result
+      }
+
+    })
+  }
+  //查询菜单
+  let selectMenu = (fn) => {
+    let sql = $sql.menu.select;
+    return _.sqlQuery(sql, [], (result) => {
+      return fn(result);
+    })
+  }
+  //初始化菜单
+  let initMenu = (list, fn) => {
+    let newList = [];
+    let listCopy = Object.assign(list);
+    list.forEach(x => {
+      if (x.parent_id != null) {
+        listCopy.forEach(y => {
+          if (x.parent_id == y.menu_id) {
+            if (y.children) {
+              y.children.push(x);
+            } else {
+              y.children = [];
+              y.children.push(x);
+            }
+          }
+        })
+      }
+    })
+    listCopy.forEach(x => {
+      if (x.parent_id == null) {
+        newList.push(x);
+      }
+    })
+    return fn(newList);
+  }
+  getAccountId((id) => {
+    curMenu(id, (menu) => {
+      let menus = menu[0].menu_list.split(',');
+      selectMenu((menuList) => {
+        let curMenuList = [];
+        menuList.forEach(x => {
+          menus.forEach(y => {
+            if (x.menu_id == y) {
+              curMenuList.push(x);
+            }
+          })
+        })
+        initMenu(curMenuList, (newMenu) => {
+          _.success(newMenu);
+        })
+
+      })
+    })
+  })
+});
 
 
 module.exports = router;

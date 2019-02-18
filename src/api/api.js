@@ -41,6 +41,7 @@ const api = {
   //登陆
   login(params) { return comAPI('post', system + '/login', params) },
   getToken(params) { return comAPI('get', system + '/getToken', params) },
+  getMenu(params) { return comAPI('get', system + '/getMenu', params) },
   addTest(params) { return comAPI('post', system + '/test/addTest', params) },
   //animate
   getAnimate(params) { return comAPI('post', system + '/animate/getAnimate', params) },

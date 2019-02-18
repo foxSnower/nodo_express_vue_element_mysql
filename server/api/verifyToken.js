@@ -24,17 +24,21 @@ verifyToken = (req, res, next) => {
     });
     //解析token
     var getAccountId = (fn) => {
-      return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
-        if (err) {
-          return fn(null)
-        } else {
-          if (fn) {
-            return fn(decode.id)
+      if (!Cookies.FETRUEREFRESHTOKEN) {
+        return _.error(null,'token失效');
+      } else {
+        return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
+          if (err) {
+            return fn(null)
           } else {
-            return decode.id
+            if (fn) {
+              return fn(decode.id)
+            } else {
+              return decode.id
+            }
           }
-        }
-      })
+        })
+      }
     }
     //根据账户id获得当前用户refreshToken
     var curRefreshToken = (id, fn) => {

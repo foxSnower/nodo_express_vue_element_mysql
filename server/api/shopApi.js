@@ -37,7 +37,7 @@ router.post('/editShop', (req, res) => {
   }
   //新增账户信息
   let addAccount = (params,fn) => {
-    return _.sqlQuery(s_add_account, [params.shop_id, params.user_name, params.password, 1,'主账户'], (result) => {
+    return _.sqlQuery(s_add_account, [params.shop_id, params.user_name, params.password,'1,2,3,4,5,8,9',1,'主账户'], (result) => {
       return fn(result);
     })
   }

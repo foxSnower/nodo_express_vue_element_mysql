@@ -5,8 +5,8 @@
       <div class="login_lf">
         <img src="@assets/logo.png">
       </div>
-      <div class="login_rt">
-        <el-form ref="loginForm" :model="loginForm" :rules="loginFormRule" label-width="100px" size="medium" hide-required-asterisk>
+      <div class="login_rt" @keyup.enter="login">
+        <el-form ref="loginForm" :model="loginForm" :rules="loginFormRule" label-width="100px" size="medium" hide-required-asterisk >
           <el-form-item label="账户" prop="user_name">
             <el-input v-model.trim="loginForm.user_name" maxLength="20"></el-input>
           </el-form-item>
