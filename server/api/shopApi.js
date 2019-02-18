@@ -24,26 +24,26 @@ router.post('/editShop', (req, res) => {
     password: params.password,
   };
   //新增商户信息
-  let addShop = (params,fn) => {
+  let addShop = (params, fn) => {
     return _.sqlQuery(s_add, [params.shop_name, params.goods_name, params.shop_address, params.shop_manager, params.shop_phone, params.shop_IDCard, params.user_name, params.password], (result) => {
       return fn(result);
     })
   }
   //修改商户信息
-  let modifyShop = (params,fn) => {
+  let modifyShop = (params, fn) => {
     return _.sqlQuery(s_modify, [params.shop_name, params.goods_name, params.shop_address, params.shop_manager, params.shop_phone, params.shop_IDCard, params.user_name, params.password, params.shop_id], (result) => {
       return fn(result);
     })
   }
   //新增账户信息
-  let addAccount = (params,fn) => {
-    return _.sqlQuery(s_add_account, [params.shop_id, params.user_name, params.password,'1,2,3,4,5,8,9',1,'主账户'], (result) => {
+  let addAccount = (params, fn) => {
+    return _.sqlQuery(s_add_account, [params.shop_id, params.user_name, params.password, '1,2,3,4,5,8,9', 1, '主账户'], (result) => {
       return fn(result);
     })
   }
   //修改账户信息
-  let modifyAccount = (params,fn) => {
-    return _.sqlQuery(s_modify_account, [params.user_name, params.password,params.shop_id], (result) => {
+  let modifyAccount = (params, fn) => {
+    return _.sqlQuery(s_modify_account, [params.user_name, params.password, params.shop_id], (result) => {
       return fn(result);
     })
   }
@@ -56,7 +56,7 @@ router.post('/editShop', (req, res) => {
       })
     })
   } else {
-    modifyShop(params, (result) => { 
+    modifyShop(params, (result) => {
       modifyAccount(params, (result2) => {
         _.success();
       })
@@ -102,6 +102,7 @@ router.post('/getShop', (req, res) => {
   } else {
     if (shop_id) {
       //按id查找
+
       sql = "select * from shops where shop_id in (?)";
       _.sqlQuery(sql, [shop_id], (result) => {
         result = _.filterDataOfTime(result);
@@ -117,6 +118,35 @@ router.post('/getShop', (req, res) => {
     }
   }
 
+});
+//查商户名下的所有账户
+router.post('/getSubAccount', (req, res) => {
+  var _ = new Fuc(res);
+  var sql = 'select * from account where shop_id = ?'
+  var params = req.body;
+  let sort = (list) => {
+    let isFirst = {};
+    list.forEach((x, index) => {
+      if (x.is_main === 1) {
+        isMain = x;
+        list.splice(1, index);
+        return false
+      }
+    })
+    result.unshift(isFirst);
+  }
+  _.sqlQuery(sql, [params.shop_id], (result) => {
+    let isMain = {};
+    result.forEach((x, index) => {
+      if (x.is_main === 1) {
+        isMain = x;
+        result.splice(1, index);
+        return false
+      }
+    })
+    result.unshift(isMain);
+    _.success(result);
+  })
 });
 
 module.exports = router;

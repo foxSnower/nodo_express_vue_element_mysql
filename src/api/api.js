@@ -63,6 +63,7 @@ const api = {
   getShop(params) { return comAPI('post', system + '/shop/getShop', params) },
   editShop(params) { return comAPI('post', system + '/shop/editShop', params) },
   delShop(params) { return comAPI('post', system + '/shop/delShop', params) },
+  getSubAccount(params) { return comAPI('post', system + '/shop/getSubAccount', params) },
 }
 
 Vue.prototype.$http = http;

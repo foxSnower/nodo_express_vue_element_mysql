@@ -5,37 +5,37 @@
       <div class="cont">
         <div class="f-clear">
           <div class="f-item">
-            <p>商铺名称：<i>{{myData.shop_name}}</i></p>
+            <p>商铺名称：<i>{{baseInfo.shop_name}}</i></p>
           </div>
           <div class="f-item">
-            <p>主推商品：<i>{{myData.goods_name}}</i></p>
+            <p>主推商品：<i>{{baseInfo.goods_name}}</i></p>
           </div>
           <div class="f-item">
-            <p>商铺地址：<i>{{myData.shop_address}}</i></p>
+            <p>商铺地址：<i>{{baseInfo.shop_address}}</i></p>
           </div>
           <div class="f-item">
-            <p>店长姓名：<i>{{myData.shop_manager}}</i></p>
+            <p>店长姓名：<i>{{baseInfo.shop_manager}}</i></p>
           </div>
           <div class="f-item">
-            <p>店长电话：<i>{{myData.shop_phone}}</i></p>
+            <p>店长电话：<i>{{baseInfo.shop_phone}}</i></p>
           </div>
           <div class="f-item">
-            <p>店长身份证：<i>{{myData.shop_IDCard}}</i></p>
+            <p>店长身份证：<i>{{baseInfo.shop_IDCard}}</i></p>
           </div>
           <div class="f-item">
-            <p>商铺状态：<el-tag type="primary" size="medium ">{{myData.shop_status|shop_status}}</el-tag>
+            <p>商铺状态：<el-tag type="primary" size="medium ">{{baseInfo.shop_status|shop_status}}</el-tag>
             </p>
           </div>
           <div class="f-item1">
-            <p>最后一次修改人账号：<i>{{myData.modify_name|filterNull}}</i></p>
+            <p>最后一次修改人账号：<i>{{baseInfo.modify_name|filterNull}}</i></p>
           </div>
           <div class="f-item1">
-            <p>最后一次修改时间：<i>{{myData.modify_time}}</i></p>
+            <p>最后一次修改时间：<i>{{baseInfo.modify_time}}</i></p>
           </div>
         </div>
-        <el-table :data="shopInfo" border style="width: 100%">
+        <el-table :data="accountList" border style="width: 100%">
           <el-table-column prop="user_name" label="账号" width="180"></el-table-column>
-          <el-table-column prop="password" label="密码" width="180"></el-table-column>
+          <el-table-column prop="user_password" label="密码" width="180"></el-table-column>
           <el-table-column prop="mark" label="备注"></el-table-column>
         </el-table>
       </div>
@@ -93,31 +93,41 @@
 export default {
   data() {
     return {
-      dialogVisible:false,
-      myData: {},
+      dialogVisible: false,
+      baseInfo: {},
+      accountList:[],
       shopInfo: [],
-      tableData:[],
+      tableData: []
     };
   },
   components: {
     HPage: () => import('@components/HPage')
   },
   methods: {
-    showDetail(row){
+    showDetail(row) {
       this.dialogVisible = true;
-       this.getData(row.shop_id);
+      this.getData(row.shop_id);
     },
     getData(shop_id) {
+      this.getShop(shop_id);
+      this.getSubAccount(shop_id);
+    },
+    getShop(shop_id) {
       this.$api
         .getShop({
           shop_id
         })
         .then(res => {
-          this.myData = res.data;
-          if (res.data.user_name) {
-            this.shopInfo.push(res.data);
-            this.$set(this.shopInfo[0], 'mark', '主账户');
-          }
+          this.baseInfo = res.data;
+        });
+    },
+    getSubAccount(shop_id) {
+      this.$api
+        .getSubAccount({
+          shop_id
+        })
+        .then(res => {
+          this.accountList = res.data;
         });
     }
   }
