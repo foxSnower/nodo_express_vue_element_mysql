@@ -15,9 +15,9 @@ const router = new Router({
         { path: '/SuDu', meta: { title: 'SuDu' }, name: 'SuDu', component: () => import('@views/SuDu/SuDu.vue') },
         { path: '/Index', redirect: 'Welcome', meta: { title: 'Index' }, name: 'Index', component: () => import('@views/System/Index.vue'), children: [
           { path: '/Welcome', meta: { title: 'Welcome' }, name: 'Welcome', component: () => import('@views/System/Welcome.vue') },
-          { path: '/SetGoods', meta: { title: 'SetGoods' }, name: 'SetGoods', component: () => import('@views/System/Goods/SetGoods.vue') },
+          { path: '/Goods/GoodsList', meta: { title: 'GoodsList' }, name: 'GoodsList', component: () => import('@views/System/Goods/GoodsList.vue') },
           { path: '/Users/UsersList', meta: { title: 'UsersList' }, name: 'UsersList', component: () => import('@views/System/Users/UsersList.vue') },
-          // { path: '/Users/UsersDetail/:shop_id', meta: { title: 'UsersDetail' }, name: 'UsersDetail', component: () => import('@views/System/Users/UsersDetail.vue') },
+          { path: '/Setting/ModifyPassword', meta: { title: 'ModifyPassword' }, name: 'ModifyPassword', component: () => import('@views/Setting/ModifyPassword.vue') },
           ...generateRoutesFromMenu()
         ] },
       ]

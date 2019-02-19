@@ -58,7 +58,7 @@ verifyToken = (req, res, next) => {
         if (result[0].refresh_token == Cookies.FETRUEREFRESHTOKEN) {
           next();
         } else {
-          _.error('token失效');
+          _.error(null,'token失效');
         }
       })
     })

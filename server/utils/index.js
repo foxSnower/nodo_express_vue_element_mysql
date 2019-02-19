@@ -78,6 +78,8 @@ Fuc.prototype.filterDataOfTime = function (data) {
   })
   return data
 }
+ 
+
 module.exports = Fuc;
 
 // module.exports = {

@@ -15,7 +15,8 @@ var sqlMap = {
     modifyToken: 'update account set token=? where account_id=?',
     modifyRefreshToken: 'update account set refresh_token=? where account_id=?',
     addMainAccount:'insert into account(account_id, shop_id,user_name,user_password,menu_list,is_main,mark) values (0,?,?,?,?,?,?)',
-    modifyMainAccount:'update account set user_name=?,user_password=?  where shop_id = ? and is_main = 1',
+    modifyMainAccount: 'update account set user_name=?,user_password=?  where shop_id = ? and is_main = 1',
+    modifyPassword:'update account set user_password=?  where account_id = ?',
   },
   menu: {
     select: 'select * from permission_menu',

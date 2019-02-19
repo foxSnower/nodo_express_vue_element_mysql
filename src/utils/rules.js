@@ -53,3 +53,24 @@ export const UsersRules = {
     trigger: ['blur']
   }],
 }
+
+export const ModifyPasswordRules = {
+  old_password: [{
+    required: true,
+    name: '原密码',
+    validator: validator.normal,
+    trigger: ['blur']
+  }],
+  new_password: [{
+    required: true,
+    name: '新密码',
+    validator: validator.normal,
+    trigger: ['blur']
+  }],
+  new_password_sure: [{
+    required: true,
+    name: '确定新密码',
+    validator: validator.normal,
+    trigger: ['blur']
+  }],
+}

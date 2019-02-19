@@ -68,6 +68,26 @@ router.post('/login', (req, res) => {
   })
 });
 
+
+//解析token
+var getAccountId = (Cookies,fn) => {
+  if (!Cookies.FETRUEREFRESHTOKEN) {
+    return _.error(null, 'token失效');
+  } else {
+    return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
+      if (err) {
+        return fn(null)
+      } else {
+        if (fn) {
+          return fn(decode.id)
+        } else {
+          return decode.id
+        }
+      }
+    })
+  }
+}
+
 // 获取token
 router.get('/getToken', (req, res) => {
   var _ = new Fuc(res);
@@ -78,24 +98,7 @@ router.get('/getToken', (req, res) => {
     var parts = Cookie.split('=');
     Cookies[parts[0].trim()] = (parts[1] || '').trim();
   });
-  //解析token
-  var getAccountId = (fn) => {
-    if (!Cookies.FETRUEREFRESHTOKEN) {
-      return _.error(null, 'token失效');
-    } else {
-      return jwt.verify(Cookies.FETRUEREFRESHTOKEN, secretOrPrivateKey(), function (err, decode) {
-        if (err) {
-          return fn(null)
-        } else {
-          if (fn) {
-            return fn(decode.id)
-          } else {
-            return decode.id
-          }
-        }
-      })
-    }
-  }
+
   //根据账户id获得当前用户refreshToken
   var curRefreshToken = (id, fn) => {
     return _.sqlQuery(sql, [id], (result) => {
@@ -109,7 +112,7 @@ router.get('/getToken', (req, res) => {
 
     })
   }
-  getAccountId((id) => {
+  getAccountId(Cookies,(id) => {
     curRefreshToken(id, (result) => {
       if (result[0].refresh_token == Cookies.FETRUEREFRESHTOKEN) {
         //生成token
@@ -217,5 +220,46 @@ router.get('/getMenu', (req, res) => {
   })
 });
 
+// 修改密码
+router.post('/modifyPassword', (req, res) => {
+  var _ = new Fuc(res);
+  var sql = $sql.account.modifyPassword;
+  var params = req.body;
+  // 获得客户端的Cookie
+  var Cookies = {};
+  req.headers.cookie && req.headers.cookie.split(';').forEach(function (Cookie) {
+    var parts = Cookie.split('=');
+    Cookies[parts[0].trim()] = (parts[1] || '').trim();
+  });
+  //根据账户id获得当前用户密码
+  var curPassword = (id, fn) => {
+    let selectPassword = 'select * from account where account_id = ?'
+    return _.sqlQuery(selectPassword, [id], (result) => {
+      if (fn) {
+        if (result.length) {
+          return fn(result[0].user_password)
+        }
+      } else {
+        return result[0].user_password
+      }
+    })
+  }
+
+  getAccountId(Cookies,(id) => {
+    curPassword(id, (user_password) => {
+      if (user_password === params.old_password) {
+        if (params.new_password === params.new_password_sure) {
+          _.sqlQuery(sql, [params.new_password, id], (result) => {
+            _.success(null, '修改成功');
+          })
+        } else {
+          _.error(null, '确定密码与新密码不统一');
+        }
+      } else {
+        _.error(null, '原密码错误');
+      }
+    })
+  })
+});
 
 module.exports = router;
