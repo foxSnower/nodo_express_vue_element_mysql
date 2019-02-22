@@ -6,7 +6,6 @@
       <HInput prop="new_password_sure" label="确定新密码" v-model="params.new_password_sure"></HInput>
       <el-button type="primary" @click="submit">提 交</el-button>
     </el-form>
-
   </div>
 
 </template>
